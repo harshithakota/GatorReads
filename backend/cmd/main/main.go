@@ -1,15 +1,18 @@
 package main
 
 import (
-    "fmt"
-    "net/http"
+	"backend/database"
+	"backend/routes"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-        fmt.Fprintf(w, "Hello, GatorReads Backend!")
-    })
+	database.Connect()
+	r := gin.Default()
 
-    fmt.Println("Server started on :8080")
-    http.ListenAndServe(":8080", nil)
+	r.POST("/register", routes.Register)
+	r.POST("/signin", routes.SignIn)
+
+	r.Run(":8083") // Start the server
 }
