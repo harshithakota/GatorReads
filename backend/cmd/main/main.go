@@ -23,6 +23,7 @@ func main() {
 
 	r.POST("/register", routes.Register)
 	r.POST("/signin", routes.SignIn)
+	r.POST("/signout", routes.SignOut)
 
-	r.Run(":8083")
+	r.Run(":8088")
 }
