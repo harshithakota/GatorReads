@@ -20,7 +20,7 @@ func Register(c *gin.Context) {
 	fmt.Println("Raw password before hashing:", user.Password)
 
 	// Hash the password
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error hashing password"})
 		return
@@ -39,71 +39,12 @@ func Register(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "User registered successfully"})
 }
 
-// func Register(c *gin.Context) {
-// 	var user models.User
-// 	if err := c.ShouldBindJSON(&user); err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
-// 		return
-// 	}
-
-// 	fmt.Println("Raw password before hashing:", user.Password)
-
-// 	// Hash the password
-// 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
-// 	if err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error hashing password"})
-// 		return
-// 	}
-// 	user.Password = string(hashedPassword)
-
-// 	fmt.Println("Hashed password being stored:", user.Password) // Debugging Log
-
-// 	// Save user to database
-// 	if err := database.DB.Create(&user).Error; err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register user"})
-// 		return
-// 	}
-
-// 	c.JSON(http.StatusOK, gin.H{"message": "User registered successfully"})
-// }
-
-// func SignIn(c *gin.Context) {
-// 	var input struct {
-// 		UFID string json:"ufid"
-// 		// EmployeeID  string json:"employeeId,omitempty"
-// 		Password    string json:"password"
-// 	}
-// 	if err := c.ShouldBindJSON(&input); err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
-// 		return
-// 	}
-
-// 	var user models.User
-// 	if input.UFID != "" {
-// 		database.DB.Where("admission_id = ?", input.AdmissionID).First(&user)
-// 	} else {
-// 		database.DB.Where("employee_id = ?", input.EmployeeID).First(&user)
-// 	}
-
-// 	if user.ID == 0 {
-// 		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
-// 		return
-// 	}
-
-// 	// Check password
-// 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password)); err != nil {
-// 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Incorrect password"})
-// 		return
-// 	}
-
-// 	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "user": user})
-// }
-
 func SignIn(c *gin.Context) {
 	var input struct {
-		UFID     string json:"ufid" // Changed from admissionId/employeeId to ufid
-		Password string json:"password"
+		UFID     string `json:"ufid"` // Changed from admissionId/employeeId to UFID
+		Password string `json:"password"`
 	}
+
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
@@ -124,3 +65,59 @@ func SignIn(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "user": user})
 }
+
+// The commented parts below are fixed with correct struct tag syntax if needed in future.
+/*
+func Register(c *gin.Context) {
+    var user models.User
+    if err := c.ShouldBindJSON(&user); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+        return
+    }
+
+    fmt.Println("Raw password before hashing:", user.Password)
+
+    // Hash the password
+    hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Error hashing password"})
+        return
+    }
+    user.Password = string(hashedPassword)
+
+    fmt.Println("Hashed password being stored:", user.Password)
+
+    // Save user to database
+    if err := database.DB.Create(&user).Error; err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register user"})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"message": "User registered successfully"})
+}
+
+func SignIn(c *gin.Context) {
+    var input struct {
+        UFID     string `json:"ufid"`
+        Password string `json:"password"`
+    }
+    if err := c.ShouldBindJSON(&input); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+        return
+    }
+
+    var user models.User
+    if err := database.DB.Where("ufid = ?", input.UFID).First(&user).Error; err != nil {
+        c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+        return
+    }
+
+    // Check password
+    if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password)); err != nil {
+        c.JSON(http.StatusUnauthorized, gin.H{"error": "Incorrect password"})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"message": "Login successful", "user": user})
+}
+*/
