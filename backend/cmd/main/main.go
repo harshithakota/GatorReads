@@ -4,6 +4,7 @@ import (
 	"backend/database"
 	"backend/routes"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,8 +12,17 @@ func main() {
 	database.Connect()
 	r := gin.Default()
 
+	// Add CORS middleware
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:     []string{"Content-Type"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
+
 	r.POST("/register", routes.Register)
 	r.POST("/signin", routes.SignIn)
 
-	r.Run(":8083") // Start the server
+	r.Run(":8083")
 }
