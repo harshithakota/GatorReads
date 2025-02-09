@@ -2,8 +2,9 @@ import { React, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './Header.css'
 
-import MenuIcon from '@material-ui/icons/Menu';
-import ClearIcon from '@material-ui/icons/Clear';
+import MenuIcon from '@mui/icons-material/Menu';
+import ClearIcon from '@mui/icons-material/Clear';
+
 
 function Header() {
 

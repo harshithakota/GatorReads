@@ -1,8 +1,13 @@
 import React from 'react'
 import './Stats.css'
-import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
-import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
-import BookIcon from '@material-ui/icons/Book';
+// import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
+// import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
+// import BookIcon from '@material-ui/icons/Book';
+// New imports using @mui/icons-material
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
+import BookIcon from '@mui/icons-material/Book';
+
 
 function Stats() {
     return (
