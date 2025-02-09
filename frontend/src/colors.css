@@ -1,0 +1,11 @@
+:root {
+    --uf-blue: #0021A5;        /* UF Blue */
+    --uf-orange: #FA4616;      /* UF Orange */
+    --light-blue: #6C9AC3;     /* Lighter shade of blue */
+    --dark-blue: #001433;      /* Darker shade of blue */
+    --light-orange: #FF8E6C;   /* Lighter shade of orange */
+    --pale-blue: #E5F0FF;      /* Very light blue for backgrounds */
+    --pale-orange: #FFF1EC;    /* Very light orange for backgrounds */
+    --text-dark: #001433;      /* Dark blue for text */
+    --text-light: #FFFFFF;     /* White text */
+  }

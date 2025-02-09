@@ -8,19 +8,19 @@
     width: 100%;
     position: fixed;
     z-index: 100;
-    background-color: rgb(16,25,13);
-    box-shadow: 0 1px 4px rgba(146,161,176,.15);
+    background-color: var(--uf-blue);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
     top: 0%;
 }
 
 .logo-nav a{
     font-size: 20px;
-    color: rgb(233,83,75);
+    color: var(--uf-orange);
     font-weight: 800;
 }
 
 .logo-nav a:hover{
-    color: wheat;
+    color: var(--light-orange);
     transition: all ease 0.5s;
 }
 
@@ -33,7 +33,8 @@
     padding: 10px 15px;
     font-size: 18px;
     border-radius: 10px;
-    border: 1px solid white;
+    border: 2px solid var(--light-blue);
+
 }
 
 .nav-options{
@@ -59,7 +60,7 @@
 }
 
 .option a{
-    color: rgb(233,83,75);
+    color: var(--text-light);
     display: flex;
     align-items: center;
     font-weight: 800;
@@ -67,7 +68,7 @@
 }
 
 .option a:hover{
-    color: wheat;
+    color: var(--uf-orange);
     transition: all ease 0.5s;
 }
 

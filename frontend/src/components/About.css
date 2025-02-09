@@ -1,7 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
 
 .about-box{
-    background-color: rgb(16,25,13);
+    background-color: var(--dark-blue);
+
 }
 
 /* Mobile View */
@@ -23,7 +24,8 @@
 /* Desktop View */
 .about-title{
     position: relative;
-    color: rgb(238,129,30);
+    color: var(--uf-orange);
+
     text-align: center;
     font-size: 32px;
     padding: 25px;
@@ -43,7 +45,7 @@
         font-size: 15px;
         font-family:'Poppins', sans-serif ;
         text-align: justify;
-        color: rgb(220,225,219);
+        color: var(--text-light);
         padding: 15px;
     }
     .about-data{

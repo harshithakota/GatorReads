@@ -1,5 +1,5 @@
 .popularbooks-container{
-    background-color: rgb(247,235,215);
+    background-color: var(--pale-blue);
     display: flex;
     flex-direction: column;
 }
@@ -20,7 +20,7 @@
 
 .popularbooks-title{
     position: relative;
-    color: #0E2431;
+    color: var(--uf-blue);
     margin-top: 20px;
     margin-bottom: 50px;
     text-align: center;
