@@ -8,14 +8,15 @@ import StudentDashboard from './components/StudentDashboard';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState("");
   return (
     <Router>
-      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn}/>} />
+        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUserName={setUserName}/>}/>
         <Route path="/register" element={<Register />} />
-        <Route path="/student-dashboard" element={<StudentDashboard />} />
+        <Route path="/student-dashboard" element={<StudentDashboard userName={userName}/>} />
 
         {/* <Route path="/" element={<Login />} /> */}
       </Routes>
