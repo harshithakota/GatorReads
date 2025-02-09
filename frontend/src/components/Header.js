@@ -33,14 +33,14 @@ function Header() {
             fontSize: '14px' // Optional: adjusting font size
         }} className='search-input' type='text' placeholder='Search a Book'/>
                 <ul className={menutoggle ? "nav-options active" : "nav-options"}>
-                    <li className="option" onClick={() => { closeMenu() }}>
+                    {/* <li className="option" onClick={() => { closeMenu() }}>
                         <Link to='/'>
                             <a href="#home">Home</a>
                         </Link>
-                    </li>
+                    </li> */}
                     <li className="option" onClick={() => { closeMenu() }}>
-                        <Link to='/books'>
-                        <a href="#books">Books</a>
+                        <Link to='/register'>
+                        <a href="#books">Register</a>
                         </Link>
                     </li>
                     <li className="option" onClick={() => { closeMenu() }}>
