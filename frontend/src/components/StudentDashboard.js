@@ -15,13 +15,13 @@ const StudentDashboard = (props) => {
   const user = JSON.parse(localStorage.getItem('user')); // Get user data from localStorage
 
   return (
-    <Container maxWidth="lg" sx={{ marginTop: '100px' }}>
+    <Container maxWidth="lg" sx={{ marginTop: '70px', marginBottom: '15px' }}>
       <Box sx={{ py: 4 }}>
         <Typography variant="h4" sx={{ mb: 4 }}>
           Welcome, {props.userName}!
         </Typography>
 
-        <Grid container spacing={3}>
+        <Grid container spacing={3} sx={{ marginTop: '10px'}}>
           {/* Quick Actions */}
           <Grid item xs={12}>
             <Paper sx={{ p: 3, mb: 3 }}>

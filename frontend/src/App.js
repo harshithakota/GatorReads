@@ -28,12 +28,57 @@ const theme = createTheme({
       secondary: '#0021A5',
     },
   },
+  
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '8px',
+          padding: '10px 24px',
+          textTransform: 'none',
+          fontSize: '1rem',
+          fontWeight: 600,
+          boxShadow: 'none',
+          '&:hover': {
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+          },
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiOutlinedInput-root': {
+            borderRadius: '8px',
+            '&:hover fieldset': {
+              borderColor: '#FA4616',
+            },
+          },
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: '12px',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          transition: 'all 0.3s ease',
+          '&:hover': {
+            transform: 'translateY(-5px)',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
+          },
+        },
+      },
+    },
+  },
+
 });
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState("");
   return (
+    <ThemeProvider theme={theme}>
     <Router>
       <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
       <Routes>
@@ -45,6 +90,7 @@ function App() {
         {/* <Route path="/" element={<Login />} /> */}
       </Routes>
     </Router>
+    </ThemeProvider>
   );
 }
 

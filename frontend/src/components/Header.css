@@ -3,20 +3,24 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0px 40px;
+    /* padding: 0px 40px; */
     height: 60px;
     width: 100%;
     position: fixed;
     z-index: 100;
     background-color: var(--uf-blue);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 40px;
+    transition: all 0.3s ease;
     top: 0%;
 }
 
 .logo-nav a{
-    font-size: 20px;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
     color: var(--uf-orange);
-    font-weight: 800;
 }
 
 .logo-nav a:hover{
@@ -30,12 +34,22 @@
     max-width: 1800px;
     height: 40px;
     outline: none;
-    padding: 10px 15px;
-    font-size: 18px;
-    border-radius: 10px;
-    border: 2px solid var(--light-blue);
-
+    border-radius: 20px;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    width: 300px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
+
+.search-input:focus {
+    outline: none;
+    box-shadow: 0 2px 12px rgba(250, 70, 22, 0.2);
+    width: 350px;
+}
+
 
 .nav-options{
     padding-left: 25px;

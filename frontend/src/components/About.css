@@ -2,7 +2,8 @@
 
 .about-box{
     background-color: var(--dark-blue);
-
+    padding: 4rem 2rem;
+    background: linear-gradient(to right, var(--dark-blue), var(--uf-blue));
 }
 
 /* Mobile View */
@@ -23,20 +24,44 @@
 
 /* Desktop View */
 .about-title{
-    position: relative;
+    /* position: relative; */
     color: var(--uf-orange);
-
     text-align: center;
-    font-size: 32px;
+    /* font-size: 32px; */
     padding: 25px;
+
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    position: relative;
+    display: inline-block;
+}
+
+.about-data {
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .about-img img{
     width: 100%;
     max-width: 700px;
-    border-radius: 25px;
+    /* border-radius: 25px; */
     padding: 15px;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
 }
+
+.about-img img:hover {
+    transform: scale(1.02);
+}
+
+.about-text {
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
 
 @media screen and (min-width:768px) {
     .about-data p{
