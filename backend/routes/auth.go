@@ -121,3 +121,34 @@ func SignIn(c *gin.Context) {
     c.JSON(http.StatusOK, gin.H{"message": "Login successful", "user": user})
 }
 */
+func SignOut(c *gin.Context) {
+	var input struct {
+		UFID string `json:"ufid"` // Accept user ID in the request body
+	}
+
+	// Bind JSON first; it internally handles reading the body
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body", "details": err.Error()})
+		return
+	}
+
+	// Check if UFID is provided
+	if input.UFID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "UFID is required"})
+		return
+	}
+
+	// Attempt to find the user in the database
+	var user models.User
+	if err := database.DB.First(&user, "ufid = ?", input.UFID).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
+
+	fmt.Println("Logging out user ID:", input.UFID)
+
+	// Here, invalidate the user's session or token if implemented
+	// Assuming you manage session or token validity elsewhere in your middleware or auth system
+
+	c.JSON(http.StatusOK, gin.H{"message": "User logged out successfully", "userId": input.UFID})
+}
