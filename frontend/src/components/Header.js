@@ -1,22 +1,44 @@
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import './Header.css'
 
 import MenuIcon from '@mui/icons-material/Menu';
 import ClearIcon from '@mui/icons-material/Clear';
 
+import { useNavigate } from 'react-router-dom';
 
-function Header() {
 
-    const [menutoggle, setMenutoggle] = useState(false)
+function Header(props) {
+
+    const [menutoggle, setMenuToggle] = useState(false);
+    const navigate = useNavigate();
 
     const Toggle = () => {
-        setMenutoggle(!menutoggle)
+        setMenuToggle(!menutoggle)
     }
 
     const closeMenu = () => {
-        setMenutoggle(false)
+        setMenuToggle(false)
     }
+
+    // const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [fullName, setFullName] = useState('');
+
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user && user.isLoggedIn) {
+            props.setIsLoggedIn(true);
+            setFullName(user.fullName);
+        }
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('user');
+        props.setIsLoggedIn(false);
+        setFullName('');
+        navigate('/');
+    };
+
 
     return (
         <div className="header">
@@ -34,11 +56,6 @@ function Header() {
         }} className='search-input' type='text' placeholder='Search a Book'/>
                 <ul className={menutoggle ? "nav-options active" : "nav-options"}>
                     {/* <li className="option" onClick={() => { closeMenu() }}>
-                        <Link to='/'>
-                            <a href="#home">Home</a>
-                        </Link>
-                    </li> */}
-                    <li className="option" onClick={() => { closeMenu() }}>
                         <Link to='/register'>
                         <a href="#books">Register</a>
                         </Link>
@@ -47,7 +64,30 @@ function Header() {
                         <Link to='/login'>
                         <a href='signin'>SignIn</a>
                         </Link>
-                    </li>
+                    </li> */}
+                    {props.isLoggedIn ? (
+                        <>
+                            <li className="option" onClick={handleLogout}>
+                                <a href="#logout">Logout</a>
+                            </li>
+                            <li className="option">
+                                <span>{fullName}</span>
+                            </li>
+                        </>
+                    ) : (
+                        <>
+                            <li className="option" onClick={() => setMenuToggle(false)}>
+                                <Link to='/register'>
+                                    Register
+                                </Link>
+                            </li>
+                            <li className="option" onClick={() => setMenuToggle(false)}>
+                                <Link to='/login'>
+                                    SignIn
+                                </Link>
+                            </li>
+                        </>
+                    )}
                 </ul>
             </div>
 

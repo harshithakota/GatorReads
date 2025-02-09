@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 
-const Login = () => {
+const Login = (props) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     ufid: '',
@@ -16,7 +16,12 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:8083/signin', formData);
       console.log('Login successful:', response.data);
-      alert('Login successful!');
+      // alert('Login successful!');
+      localStorage.setItem('user', JSON.stringify({
+        fullName: response.data.fullName,
+        isLoggedIn: true
+      }));
+      props.setIsLoggedIn(true);
       navigate('/student-dashboard');
 
       // Handle successful login (redirect, store token, etc.)

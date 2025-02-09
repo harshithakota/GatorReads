@@ -12,8 +12,7 @@ function About() {
                 <div>
                     <p className="about-text">
                         The Gator Library Management System (GLMS) provides a comprehensive solution 
-                        for the administration of libraries across the Gator network. Established in 
-                        2021, GLMS aims to modernize library interactions and access for students and 
+                        for the administration of libraries across the Gator network. GLMS aims to modernize library interactions and access for students and 
                         faculty alike, making it simpler and faster to locate and check out materials.<br/>
                         <br/>
                         Our system features state-of-the-art technology that supports both physical 
