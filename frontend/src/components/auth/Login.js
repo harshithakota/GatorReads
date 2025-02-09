@@ -14,6 +14,7 @@ const Login = () => {
       const response = await axios.post('http://localhost:8083/signin', formData);
       console.log('Login successful:', response.data);
       alert('Login successful!');
+      navigate('/student-dashboard');
 
       // Handle successful login (redirect, store token, etc.)
     } catch (error) {
