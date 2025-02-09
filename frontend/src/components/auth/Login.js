@@ -4,15 +4,18 @@ import axios from 'axios';
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    admissionId: '',
+    ufid: '',
     password: ''
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8083/api/auth/signin', formData);
+      const response = await axios.post('http://localhost:8083/signin', formData);
       console.log('Login successful:', response.data);
+      alert('Login successful!');
+      navigate('/student-dashboard');
+
       // Handle successful login (redirect, store token, etc.)
     } catch (error) {
       console.error('Login failed:', error);
@@ -45,11 +48,11 @@ const Login = () => {
             margin="normal"
             required
             fullWidth
-            id="admissionId"
-            label="Admission ID"
-            name="admissionId"
+            id="ufid"
+            label="UFID"
+            name="ufid"
             autoFocus
-            value={formData.admissionId}
+            value={formData.ufid}
             onChange={handleChange}
           />
           <TextField
