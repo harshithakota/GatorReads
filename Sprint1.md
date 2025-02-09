@@ -104,3 +104,5 @@ Our first sprint aims to establish foundational features of the GatorReads Libra
 - **Backend Issue #3:** Develop APIs for Managing User and Book Data
   - Design and implement APIs for CRUD operations on books and user profiles.
   - Ensure APIs are secure and performant.
+ 
+We were able to meet the above planned issues (backend and frontend) for sprint 1.
