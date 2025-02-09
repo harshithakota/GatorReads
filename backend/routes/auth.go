@@ -32,7 +32,7 @@ func Register(c *gin.Context) {
 
 	// Save user to database
 	if err := database.DB.Create(&user).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register user"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "User is already registered!!"})
 		return
 	}
 
