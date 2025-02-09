@@ -8,4 +8,5 @@ type Book struct {
 	BookFullName string `json:"bookFullName"`
 	BookID       string `json:"bookid"`
 	BookCount    int    `json:"bookCount"`
+	IssueDate    string `json:"issueDate"`
 }
