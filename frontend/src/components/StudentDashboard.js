@@ -11,14 +11,14 @@ import {
 } from '@mui/material';
 import { Book, MenuBook, History, Bookmark } from '@mui/icons-material';
 
-const StudentDashboard = () => {
+const StudentDashboard = (props) => {
   const user = JSON.parse(localStorage.getItem('user')); // Get user data from localStorage
 
   return (
     <Container maxWidth="lg" sx={{ marginTop: '100px' }}>
       <Box sx={{ py: 4 }}>
         <Typography variant="h4" sx={{ mb: 4 }}>
-          Welcome, {user?.userFullName}!
+          Welcome, {props.userName}!
         </Typography>
 
         <Grid container spacing={3}>

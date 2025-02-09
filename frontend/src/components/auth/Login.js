@@ -17,6 +17,8 @@ const Login = (props) => {
       const response = await axios.post('http://localhost:8083/signin', formData);
       console.log('Login successful:', response.data);
       // alert('Login successful!');
+      console.log(response.data.user.userFullName);
+      props.setUserName(response.data.user.userFullName);
       localStorage.setItem('user', JSON.stringify({
         fullName: response.data.fullName,
         isLoggedIn: true

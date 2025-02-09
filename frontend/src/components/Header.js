@@ -50,6 +50,7 @@ function Header(props) {
             <div className='nav-right'>
                 <input style={{ 
             height: '50px', // Reducing the height
+            width: '250px',
             padding: '5px 10px', // Adjusting padding
             boxSizing: 'border-box', // Ensuring padding and border are included in the height
             fontSize: '14px' // Optional: adjusting font size
@@ -67,12 +68,15 @@ function Header(props) {
                     </li> */}
                     {props.isLoggedIn ? (
                         <>
+                            <li className="option" onClick={() => navigate('/student-dashboard')}>
+                                <a href="#logout">Dashboard</a>
+                            </li>
                             <li className="option" onClick={handleLogout}>
                                 <a href="#logout">Logout</a>
                             </li>
-                            <li className="option">
-                                <span>{fullName}</span>
-                            </li>
+                            {/* <li className="option">
+                                <span>{props.userName}</span>
+                            </li> */}
                         </>
                     ) : (
                         <>
@@ -83,7 +87,7 @@ function Header(props) {
                             </li>
                             <li className="option" onClick={() => setMenuToggle(false)}>
                                 <Link to='/login'>
-                                    SignIn
+                                    Login
                                 </Link>
                             </li>
                         </>
