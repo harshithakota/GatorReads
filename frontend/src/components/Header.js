@@ -21,7 +21,7 @@ function Header() {
         <div className="header">
             <div className="logo-nav">
             <Link to='/'>
-                <a href="#home">GATOR LIBRARY</a>
+                <a href="#home">GATOR READS</a>
             </Link>
             </div>
             <div className='nav-right'>
