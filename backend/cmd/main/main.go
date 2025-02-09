@@ -25,5 +25,9 @@ func main() {
 	r.POST("/signin", routes.SignIn)
 	r.POST("/signout", routes.SignOut)
 
-	r.Run(":8088")
+	r.GET("/getAllBooks", routes.GetAllBooks)
+	r.POST("/addBook", routes.AddBook)
+	r.GET("/getBook/:bookId", routes.GetBook)
+
+	r.Run(":8083")
 }
