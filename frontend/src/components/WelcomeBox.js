@@ -5,8 +5,8 @@ function WelcomeBox() {
     return (
         <div style={{ marginTop: "50px" }} className='welcome-box'>
             <p className='welcome-title'>WELCOME TO GATOR READS</p>
-            <p className='welcome-message'>Feed Your Brain<br/>
-            <span className='welcome-submessage'>Grab A Book To Read</span></p>
+            <p className='welcome-message'>Where Gator Brilliance Begins<br/>
+            <span className='welcome-submessage'>Begin Your Journey with Books</span></p>
         </div>
     )
 }
