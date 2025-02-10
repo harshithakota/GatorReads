@@ -66,6 +66,18 @@
     text-align: center;
 }
 
+.recentbooks-title::after{
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;          
+    transform: translateX(-50%);  
+    width: 350px;       
+    height: 4px;        /* Set thickness of line */
+    background-color: rgb(238,129,30);  /* Same color as title */
+    border-radius: 2px; 
+}
+
 .recent-book:hover{
     transform: scale(1.15);
     transition: all ease 0.7s;
