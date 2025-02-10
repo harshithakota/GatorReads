@@ -7,7 +7,8 @@ function About() {
             <h2 className="about-title">About Gator Reads</h2>
             <div className="about-data">
                 <div className="about-img">
-                    <img src="https://images.unsplash.com/photo-1583468982228-19f19164aee2?ixid=MnwxMjA3fDB8MHxwaGooto-pagefHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=913&q=80" alt="Gator Library" />
+                    {/* <img src="https://images.unsplash.com/photo-1583468982228-19f19164aee2?ixid=MnwxMjA3fDB8MHxwaGooto-pagefHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=913&q=80" alt="Gator Library" /> */}
+                    <img src="/GatorAbout.jpg" alt="Gator Library" />
                 </div>
                 <div>
                     <p className="about-text">
