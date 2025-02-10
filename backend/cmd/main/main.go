@@ -24,6 +24,7 @@ func main() {
 	r.POST("/register", routes.Register)
 	r.POST("/signin", routes.SignIn)
 	r.POST("/signout", routes.SignOut)
+	r.POST("/issue-book", routes.IssueBook)
 
 	r.GET("/getAllBooks", routes.GetAllBooks)
 	r.POST("/addBook", routes.AddBook)
