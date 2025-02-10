@@ -13,7 +13,7 @@
     display: inline-block;
 }
 
-.recentbooks-title::after,
+/* .recentbooks-title::after,
 .popularbooks-title::after {
     content: '';
     position: absolute;
@@ -23,7 +23,7 @@
     height: 4px;
     background: var(--uf-orange);
     border-radius: 2px;
-}
+} */
 
 .recent-book,
 .popular-book {

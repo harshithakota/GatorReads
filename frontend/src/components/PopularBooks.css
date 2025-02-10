@@ -1,30 +1,4 @@
 
-/* RecentAddedBooks.css and PopularBooks.css */
-.recentaddedbooks-container,
-.popularbooks-container {
-    padding: 4rem 2rem;
-}
-
-.recentbooks-title,
-.popularbooks-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 3rem;
-    position: relative;
-    display: inline-block;
-}
-
-.recentbooks-title::after,
-.popularbooks-title::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    width: 60%;
-    height: 4px;
-    background: var(--uf-orange);
-    border-radius: 2px;
-}
 
 .recent-book,
 .popular-book {

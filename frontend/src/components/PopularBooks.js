@@ -5,6 +5,7 @@ function PopularBooks() {
   return (
     <div className="popularbooks-container">
       <h className="popularbooks-title">Popular Books</h>
+      <div style={{ height: '4px', width: '25%', backgroundColor: '#FA4616', borderRadius: '2px', margin: '0 auto' }}></div>
       <div className="popularbooks">
         <div className="popularbook-images">
           <img
