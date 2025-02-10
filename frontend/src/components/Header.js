@@ -32,7 +32,8 @@ function Header(props) {
         }
     }, []);
 
-    const handleLogout = () => {
+    const handleLogout = (event) => {
+        event.preventDefault();
         localStorage.removeItem('user');
         props.setIsLoggedIn(false);
         setFullName('');
