@@ -104,7 +104,7 @@ export default function SearchBooks({ ufid }) {
       {/* ✅ Book List */}
       <Grid container spacing={3}>
         {filteredBooks.map((book) => (
-          <Grid item xs={12} sm={6} md={4} key={book.book_Id}>
+          <Grid item xs={12} sm={6} md={4} key={book.bookId}>
             {console.log(book)}
             <Card sx={{ transition: "0.3s", "&:hover": { boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)" } }}>
               <img 
@@ -125,7 +125,7 @@ export default function SearchBooks({ ufid }) {
                   fullWidth
                   sx={{ mt: 2, fontWeight: "bold" }}
                   disabled={book.bookCount === 0}
-                  onClick={() => handleLoan(book.book_Id)}
+                  onClick={() => handleLoan(book.bookId)}
                 >
                   {book.bookCount > 0 ? "Loan Book" : "Not Available"}
                 </Button>
