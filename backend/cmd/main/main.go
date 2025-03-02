@@ -33,7 +33,7 @@ func main() {
 	r.POST("/returnBook", routes.ReturnBook)
 
 	r.GET("/getAllLoans", routes.AllLoans)
-	//r.GET("/getLoans/:ufId", routes.GetLoans)
+	r.GET("/getLoans/:ufId", routes.GetLoans)
 
 	r.Run(":8083")
 }
