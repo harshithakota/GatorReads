@@ -54,7 +54,7 @@ func AddBook(c *gin.Context) {
 	}
 
 	if err := database.DB.Create(&newBook).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Book-Id is already in use!!"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Book-Id is already in use!!!"})
 		return
 	}
 
