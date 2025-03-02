@@ -11,7 +11,7 @@ import (
 var DB *gorm.DB
 
 func Connect() {
-	dsn := "host=localhost user=myuser password=mypassword dbname=mydb port=5432 sslmode=disable"
+	dsn := "host=localhost user=postgres password=4040 dbname=mydb port=5432 sslmode=disable"
 
 	// dsn := "host=localhost user=yourusername password=yourpassword dbname=yourdbname port=5432 sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})

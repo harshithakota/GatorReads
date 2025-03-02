@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -36,7 +37,7 @@ func IssueBook(c *gin.Context) {
 
 	// Check if the user exists
 	var user models.User
-	if err := database.DB.Where("uf_id = ?", request.UFID).First(&user).Error; err != nil {
+	if err := database.DB.Where("ufid = ?", request.UFID).First(&user).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
 		return
 	}
@@ -47,36 +48,31 @@ func IssueBook(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Book not found"})
 		return
 	}
-	if book.BookCount < request.BookCount {
+	if book.BookCount < 1 { // Check at least one book is available
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Not enough books available"})
 		return
 	}
 
-	// Attempt to find an existing book issue record for this user and book
-	var bookIssue models.IssueBookRequest
-	result := database.DB.Where("uf_id = ? AND book_id = ?", request.UFID, request.BookID).First(&bookIssue)
+	// Calculate the return date as 2 weeks from the issue date
+	twoWeeksLater := request.IssueDate.Add(14 * 24 * time.Hour)
 
-	if result.Error == nil {
-		// Record exists, update it
-		bookIssue.BookCount += request.BookCount
-	} else {
-		// No record exists, create a new one
-		bookIssue = models.IssueBookRequest{
-			UFID:      request.UFID,
-			BookID:    request.BookID,
-			IssueDate: request.IssueDate,
-			BookCount: request.BookCount,
-		}
+	// Create a new book issue record each time a book is issued
+	bookIssue := models.IssueBookRequest{
+		UFID:      request.UFID,
+		BookID:    request.BookID,
+		IssueDate: request.IssueDate,
+		DueDate:   twoWeeksLater,
+		Status:    "active", // Default status as active when issuing a new book
 	}
 
-	// Save or update the book issue record
-	if err := database.DB.Save(&bookIssue).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update or create issue record"})
+	// Save the new book issue record
+	if err := database.DB.Create(&bookIssue).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create issue record"})
 		return
 	}
 
-	// Deduct issued books from available count, update book record
-	book.BookCount -= request.BookCount
+	// Deduct one book from available count, update book record
+	book.BookCount -= 1
 	if err := database.DB.Save(&book).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update book count"})
 		return
@@ -85,10 +81,27 @@ func IssueBook(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Book issued successfully",
 		"details": gin.H{
-			"ufid":      request.UFID,
-			"bookid":    request.BookID,
-			"issueDate": request.IssueDate.Format("2006-01-02"),
-			"bookCount": bookIssue.BookCount,
+			"ufid":       request.UFID,
+			"bookid":     request.BookID,
+			"issueDate":  request.IssueDate.Format("2006-01-02"),
+			"returnDate": twoWeeksLater.Format("2006-01-02"), // Format and include return date
+			"status":     bookIssue.Status,
 		},
 	})
+}
+
+// All Loans fetches all book issue records
+func AllLoans(c *gin.Context) {
+	var issues []models.IssueBookRequest
+	if err := database.DB.Find(&issues).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve records", "details": err.Error()})
+		return
+	}
+
+	if len(issues) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No Loans found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"Loans": issues})
 }

@@ -5,7 +5,7 @@ import (
 )
 
 type Book struct {
-	BookID       string    `gorm:"primaryKey;type:varchar(100)" json:"bookId"`
+	BookID       string    `gorm:"primaryKey;type:varchar(100)" json:"book_Id"`
 	BookType     string    `gorm:"type:varchar(100)" json:"bookType"`
 	BookFullName string    `gorm:"type:varchar(255)" json:"bookFullName"`
 	BookCount    int       `gorm:"type:int" json:"bookCount"`

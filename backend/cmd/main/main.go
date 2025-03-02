@@ -24,11 +24,16 @@ func main() {
 	r.POST("/register", routes.Register)
 	r.POST("/signin", routes.SignIn)
 	r.POST("/signout", routes.SignOut)
-	r.POST("/issueBook", routes.IssueBook)
 
 	r.GET("/getAllBooks", routes.GetAllBooks)
 	r.POST("/addBook", routes.AddBook)
 	r.GET("/getBook/:bookId", routes.GetBook)
+
+	r.POST("/issueBook", routes.IssueBook)
+	//r.POST("/returnBook", routes.ReturnBook)
+
+	r.GET("/getAllLoans", routes.AllLoans)
+	//r.GET("/getLoans/:ufId", routes.GetLoans)
 
 	r.Run(":8083")
 }
