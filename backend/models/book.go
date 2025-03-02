@@ -1,14 +1,15 @@
 package models
 
 import (
-	"time" // Import time for handling datetime fields
+	"time"
 )
 
 type Book struct {
-	BookID       string    `gorm:"primaryKey;type:varchar(100)" json:"bookId"` // Explicitly setting as primary key
-	BookType     string    `gorm:"type:varchar(100)" json:"bookType"`          // Specifying field types
-	BookFullName string    `gorm:"type:varchar(255)" json:"bookFullName"`      // Maintaining consistent field type
-	BookCount    int       `gorm:"type:int" json:"bookCount"`                  // Integer field for counts
-	IssueDate    time.Time `gorm:"type:date" json:"issueDate"`                 // Using time.Time type for date
-
+	BookID       string    `gorm:"primaryKey;type:varchar(100)" json:"bookId"`
+	BookType     string    `gorm:"type:varchar(100)" json:"bookType"`
+	BookFullName string    `gorm:"type:varchar(255)" json:"bookFullName"`
+	BookCount    int       `gorm:"type:int" json:"bookCount"`
+	IssueDate    time.Time `gorm:"type:date" json:"issueDate"`
+	AuthorName   string    `gorm:"type:varchar(255)" json:"authorName"`
+	ImageData    string    `gorm:"type:text" json:"imageData"` // Storing base64 encoded image data
 }
