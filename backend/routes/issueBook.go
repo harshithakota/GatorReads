@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 // API to issue a book to a user
@@ -86,6 +87,56 @@ func IssueBook(c *gin.Context) {
 			"issueDate":  request.IssueDate.Format("2006-01-02"),
 			"returnDate": twoWeeksLater.Format("2006-01-02"), // Format and include return date
 			"status":     bookIssue.Status,
+		},
+	})
+}
+
+// API to return a book to a user
+func ReturnBook(c *gin.Context) {
+	var returnRequest models.IssueBookRequest
+
+	if err := c.ShouldBindJSON(&returnRequest); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input", "details": err.Error()})
+		return
+	}
+
+	// Find the active book issue record
+	var issue models.IssueBookRequest
+	result := database.DB.Where("ufid = ? AND book_id = ? AND status = 'active'", returnRequest.UFID, returnRequest.BookID).First(&issue)
+	if result.Error != nil {
+		if result.Error == gorm.ErrRecordNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"error": "No active issue found for this book and user"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retrieving issue record", "details": result.Error.Error()})
+		return
+	}
+
+	// Validate the return date (Optional: Check if the return date is after the issue date)
+
+	if returnRequest.ReturnDate.Before(issue.IssueDate) {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Return date cannot be before the issue date"})
+		return
+	}
+
+	// Update the status to 'returned' and set the returned date
+	issue.Status = "returned"
+	issue.ReturnDate = returnRequest.ReturnDate // Update the return date as provided in the request
+
+	// Save the updated issue record
+	if err := database.DB.Save(&issue).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update issue record", "details": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Book returned successfully",
+		"details": gin.H{
+			"ufid":       issue.UFID,
+			"bookid":     issue.BookID,
+			"issueDate":  issue.IssueDate.Format("2006-01-02"),
+			"returnDate": issue.ReturnDate.Format("2006-01-02"),
+			"status":     issue.Status,
 		},
 	})
 }

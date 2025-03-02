@@ -30,7 +30,7 @@ func main() {
 	r.GET("/getBook/:bookId", routes.GetBook)
 
 	r.POST("/issueBook", routes.IssueBook)
-	//r.POST("/returnBook", routes.ReturnBook)
+	r.POST("/returnBook", routes.ReturnBook)
 
 	r.GET("/getAllLoans", routes.AllLoans)
 	//r.GET("/getLoans/:ufId", routes.GetLoans)
