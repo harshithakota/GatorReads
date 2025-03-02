@@ -19,12 +19,18 @@ const Login = (props) => {
       // alert('Login successful!');
       console.log(response.data.user.userFullName);
       props.setUserName(response.data.user.userFullName);
+      props.setufid(response.data.user.ufid);
       localStorage.setItem('user', JSON.stringify({
         fullName: response.data.fullName,
         isLoggedIn: true
       }));
       props.setIsLoggedIn(true);
-      navigate('/student-dashboard');
+      if(response.data.user.isAdmin === true){
+        navigate('/admin-dashboard');
+      }
+      else{
+        navigate('/student-dashboard');
+      }
 
       // Handle successful login (redirect, store token, etc.)
     } catch (error) {

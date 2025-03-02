@@ -6,6 +6,12 @@ import Home from './components/Home';
 import Header from './components/Header';
 import StudentDashboard from './components/StudentDashboard';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import SearchBooks from './pages/SearchBooks';
+import AddBook from "./pages/AddBook";
+import LoanHistory from "./pages/LoanHistory";
+import AdminDashboard from './components/AdminDashboard';
+import ViewBooks from './pages/ViewBooks';
+import ManageLoans from './pages/ManageLoans';
 
 const theme = createTheme({
   palette: {
@@ -77,19 +83,25 @@ const theme = createTheme({
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState("");
+  const [ufid, setufid] = useState("");
   return (
     <ThemeProvider theme={theme}>
-    <Router>
-      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUserName={setUserName}/>}/>
-        <Route path="/register" element={<Register />} />
-        <Route path="/student-dashboard" element={<StudentDashboard userName={userName}/>} />
-
-        {/* <Route path="/" element={<Login />} /> */}
-      </Routes>
-    </Router>
+      <Router>
+        <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUserName={setUserName} setufid={setufid}/>}/>
+          <Route path="/register" element={<Register />} />
+          <Route path="/student-dashboard" element={<StudentDashboard userName={userName}/>} />
+          <Route path="/search-books" element={<SearchBooks ufid={ufid}/>} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} /> 
+          <Route path="/admin/add-book" element={<AddBook />} /> 
+          <Route path="/admin/view-books" element={<ViewBooks />} /> 
+          <Route path="/admin/manage-loans" element={<ManageLoans />} /> 
+          <Route path="/loan-history" element={<LoanHistory  ufid={ufid}/>} /> 
+          {/* <Route path="/" element={<Login />} /> */}
+        </Routes>
+      </Router>
     </ThemeProvider>
   );
 }

@@ -1,11 +1,15 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"time"
+)
 
 type Book struct {
-	gorm.Model
-	BookType     string `json:"bookType"`
-	BookFullName string `json:"bookFullName"`
-	BookID       string `json:"bookid"`
-	BookCount    int    `json:"bookCount"`
+	BookID       string    `gorm:"primaryKey;type:varchar(100)" json:"bookId"`
+	BookType     string    `gorm:"type:varchar(100)" json:"bookType"`
+	BookFullName string    `gorm:"type:varchar(255)" json:"bookFullName"`
+	BookCount    int       `gorm:"type:int" json:"bookCount"`
+	IssueDate    time.Time `gorm:"type:date" json:"issueDate"`
+	AuthorName   string    `gorm:"type:varchar(255)" json:"authorName"`
+	ImageData    string    `gorm:"type:text" json:"imageData"` // Storing base64 encoded image data
 }

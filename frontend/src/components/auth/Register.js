@@ -25,7 +25,6 @@ const Register = () => {
     userType: 'student',
     userFullName: '',
     ufid: '',
-    employeeId: '',
     dob: '',
     gender: '',
     email: '',
@@ -38,17 +37,29 @@ const Register = () => {
     type: 'success'
   });
 
+  // Handle tab change between Student and Admin
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
     setFormData({
       ...formData,
       userType: newValue === 0 ? 'student' : 'admin',
-      isAdmin: newValue === 1,
-      ufid: '',
-      employeeId: ''
+      isAdmin: newValue === 1, // Admins get `isAdmin: true`
+      ufid: '' // Reset UFID when switching
     });
   };
+  
 
+  // Handle form field changes
+  const handleChange = (e) => {
+    console.log('e', e);
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+    console.log(formData);
+  };
+
+  // Close notification
   const handleClose = () => {
     setNotification({
       ...notification,
@@ -56,18 +67,27 @@ const Register = () => {
     });
   };
 
-// In Register.js, update handleSubmit:
-const handleSubmit = async (e) => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!formData.ufid.trim()) {
+      setNotification({ open: true, message: "UFID is required!", type: "error" });
+      return;
+    }
+
+    console.log('Final Form Data Before Sending:', formData); // Debugging
+
     try {
-      console.log('Sending registration data:', formData); // Debug log
       const response = await axios.post('http://localhost:8083/register', formData);
       console.log('Registration response:', response.data);
+
       setNotification({
         open: true,
         message: 'Registration successful! Redirecting to login...',
         type: 'success'
       });
+
       setTimeout(() => navigate('/login'), 2000);
     } catch (error) {
       console.error('Registration error:', error.response || error);
@@ -77,13 +97,6 @@ const handleSubmit = async (e) => {
         type: 'error'
       });
     }
-};
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
   };
 
   return (
@@ -96,6 +109,7 @@ const handleSubmit = async (e) => {
           alignItems: 'center',
         }}
       >
+        {/* Tab Selection for Student/Admin */}
         <Paper sx={{ width: '100%', mb: 2 }}>
           <Tabs
             value={tabValue}
@@ -112,6 +126,7 @@ const handleSubmit = async (e) => {
           {tabValue === 0 ? 'Student Registration' : 'Admin Registration'}
         </Typography>
 
+        {/* Registration Form */}
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3, width: '100%' }}>
           <TextField
             margin="normal"
@@ -124,33 +139,17 @@ const handleSubmit = async (e) => {
             onChange={handleChange}
           />
 
-          {/* Show Admission ID field only for students */}
-          {tabValue === 0 && (
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="ufid"
-              label="UFID"
-              type="text"
-              value={formData.ufid}
-              onChange={handleChange}
-            />
-          )}
-
-          {/* Show Employee ID field only for admins */}
-          {tabValue === 1 && (
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="employeeId"
-              label="Employee ID"
-              type="text"
-              value={formData.employeeId}
-              onChange={handleChange}
-            />
-          )}
+          {/* ✅ UFID Field (Used for both Students & Admins) */}
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="ufid"
+            label="UFID"
+            type="text"
+            value={formData.ufid}
+            onChange={handleChange}
+          />
 
           <TextField
             margin="normal"
@@ -201,6 +200,7 @@ const handleSubmit = async (e) => {
             onChange={handleChange}
           />
 
+          {/* Register Button */}
           <Button
             type="submit"
             fullWidth
@@ -210,6 +210,7 @@ const handleSubmit = async (e) => {
             Register
           </Button>
 
+          {/* Login Redirect Button */}
           <Button
             fullWidth
             variant="text"
@@ -219,6 +220,8 @@ const handleSubmit = async (e) => {
           </Button>
         </Box>
       </Box>
+
+      {/* Notification Snackbar */}
       <Snackbar
         open={notification.open}
         autoHideDuration={6000}
