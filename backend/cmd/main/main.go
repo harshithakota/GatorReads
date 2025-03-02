@@ -25,8 +25,6 @@ func main() {
 	r.POST("/signin", routes.SignIn)
 	r.POST("/signout", routes.SignOut)
 
-<<<<<<< HEAD
-=======
 	r.GET("/getAllBooks", routes.GetAllBooks)
 	r.POST("/addBook", routes.AddBook)
 	r.GET("/getBook/:bookId", routes.GetBook)
@@ -37,6 +35,5 @@ func main() {
 	r.GET("/getAllLoans", routes.AllLoans)
 	r.GET("/getLoans/:ufId", routes.GetLoans)
 
->>>>>>> eaae740b404424f1daeddf15db866beb75c11c50
 	r.Run(":8083")
 }
