@@ -156,3 +156,25 @@ func AllLoans(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"Loans": issues})
 }
+
+// GetAllotmentsByUFID fetches all book issue records for a specific user by UFID
+func GetLoans(c *gin.Context) {
+	ufid := c.Param("ufId")
+	if ufid == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "UFID is required"})
+		return
+	}
+
+	var issues []models.IssueBookRequest
+	if err := database.DB.Where("ufid = ?", ufid).Find(&issues).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve records", "details": err.Error()})
+		return
+	}
+
+	if len(issues) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No allotments found for the specified UFID"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"allotments": issues})
+}
