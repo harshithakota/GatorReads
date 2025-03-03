@@ -10,6 +10,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
@@ -83,4 +84,26 @@ func TestGetAllBooks(t *testing.T) {
 	router.ServeHTTP(w, req)
 
 	assert.Contains(t, []int{http.StatusOK, http.StatusNotFound}, w.Code)
+}
+
+func TestIssueBook(t *testing.T) {
+	router := setupRouter()
+	reqBody := models.IssueBookRequest{
+		UFID:      "000112",
+		BookID:    "D140",
+		IssueDate: time.Date(2025, time.March, 10, 0, 0, 0, 0, time.UTC),
+	}
+
+	body, _ := json.Marshal(reqBody)
+	req, _ := http.NewRequest("POST", "/issueBook", bytes.NewBuffer(body))
+	req.Header.Set("Content-Type", "application/json")
+
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	var response map[string]interface{}
+	err := json.Unmarshal(w.Body.Bytes(), &response)
+	assert.Nil(t, err)
+	assert.Equal(t, "Book issued successfully", response["message"])
 }
