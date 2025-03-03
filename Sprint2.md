@@ -328,3 +328,213 @@ If the book is not found or an error occurs, the API may return:
 
 This API allows users to retrieve book details by providing a book ID. If the book is found, the system returns relevant details including its title, author, availability, and cover image.
 
+## **6. Get All Books API**  
+
+### **Endpoint**  
+The API for retrieving a list of all books is available at:  
+GET http://localhost:8083/getAllBooks  
+
+### **Content Type**  
+application/json  
+
+### **Authentication**  
+Authentication may be required based on system access control.  
+
+### **Response**  
+If books are found, the API returns a list of books along with their details.
+
+#### **Success Response (HTTP 200 OK)**  
+- **Books (Array):** List of books available in the system, each containing:  
+  - **bookId:** Unique identifier of the book.  
+  - **bookType:** The category of the book (e.g., Fiction, Non-Fiction).  
+  - **bookFullName:** The full title of the book.  
+  - **bookCount:** Number of copies available.  
+  - **issueDate:** The date when the book was issued (default "0001-01-01T00:00:00Z" if not issued).  
+  - **authorName:** Name of the book’s author.  
+  - **imageData:** Base64 encoded string representing the book's cover image (optional).  
+
+### **Example Response**  
+The response contains multiple books with their details.
+
+### **Error Handling**  
+If an error occurs while fetching the books, the API may return:
+
+- **404 Not Found:** If no books are available in the system.  
+- **500 Internal Server Error:** If an unexpected server issue occurs.  
+
+This API enables users to retrieve a list of all books along with their details, including title, author, availability, and cover image. If books exist in the system, they are returned in an array format.
+
+## **7. Issue Book API**  
+
+### **Endpoint**  
+The API for issuing a book is available at:  
+POST http://localhost:8083/issueBook  
+
+### **Content Type**  
+application/json  
+
+### **Authentication**  
+Authentication may be required based on system access control.  
+
+### **Request Parameters**  
+The request body must contain the following details:
+
+- **ufid** (String, Required): The unique identifier of the user borrowing the book.  
+- **bookid** (String, Required): The unique identifier of the book being issued.  
+- **issueDate** (String, Required): The date when the book is being issued, in YYYY-MM-DDTHH:MM:SSZ format.  
+
+### **Example Request**  
+A valid request should include the UFID, book ID, and issue date in JSON format.  
+
+### **Response**  
+If the book is successfully issued, the API returns a confirmation message along with the issue details.
+
+#### **Success Response (HTTP 200 OK)**  
+- **Message:** "Book issued successfully"  
+- **Issue Details:**  
+  - **bookid:** The ID of the issued book.  
+  - **issueDate:** The date the book was issued.  
+  - **returnDate:** The expected return date (system-defined, typically 14 days after the issue date).  
+  - **status:** The status of the issued book ("active" means the book is currently borrowed).  
+  - **ufid:** The unique identifier of the user who borrowed the book.  
+
+### **Error Handling**  
+If the book cannot be issued, the API may return one of the following errors:
+
+- **400 Bad Request:** If required fields are missing or invalid.  
+- **404 Not Found:** If the specified book or user does not exist in the system.  
+- **409 Conflict:** If the book is already issued and unavailable.  
+- **500 Internal Server Error:** If an unexpected error occurs on the server.  
+
+This API allows users to borrow books by providing their UFID and the book ID. If the request is successful, the system assigns an issue date and calculates a return date, returning the issue details to the user.
+
+## **8. Return Book API**  
+
+### **Endpoint**  
+The API for returning a book is available at:  
+POST http://localhost:8083/returnBook  
+
+### **Content Type**  
+application/json  
+
+### **Authentication**  
+Authentication may be required based on system access control.  
+
+### **Request Parameters**  
+The request body must contain the following details:
+
+- **ufid** (String, Required): The unique identifier of the user returning the book.  
+- **bookid** (String, Required): The unique identifier of the book being returned.  
+- **returnDate** (String, Required): The date when the book is being returned, in YYYY-MM-DDTHH:MM:SSZ format.  
+
+### **Example Request**  
+A valid request should include the UFID, book ID, and return date in JSON format.  
+
+### **Response**  
+If the book is successfully returned, the API returns a confirmation message along with the return details.
+
+#### **Success Response (HTTP 200 OK)**  
+- **Message:** "Book returned successfully"  
+- **Return Details:**  
+  - **bookid:** The ID of the returned book.  
+  - **issueDate:** The original issue date of the book.  
+  - **returnDate:** The actual return date of the book.  
+  - **status:** The status of the issued book ("returned" indicates the book has been successfully returned).  
+  - **ufid:** The unique identifier of the user who returned the book.  
+
+### **Error Handling**  
+If the book cannot be returned, the API may return one of the following errors:
+
+- **400 Bad Request:** If required fields are missing or invalid.  
+- **404 Not Found:** If the specified book or user does not exist in the system.  
+- **409 Conflict:** If the book was not issued to the user or was already returned.  
+- **500 Internal Server Error:** If an unexpected error occurs on the server.  
+
+This API allows users to return books they have borrowed by providing their UFID and book ID. If the return process is successful, the system updates the book status and confirms the action with return details.
+
+## **9. Get User Loan History API**  
+
+### **Endpoint**  
+The API for retrieving a user's loan history is available at:  
+GET http://localhost:8083/getLoans/{ufid}  
+
+### **Content Type**  
+application/json  
+
+### **Authentication**  
+Authentication may be required based on system access control.  
+
+### **Path Parameter**  
+- **ufid** (String, Required): The unique identifier of the user whose loan history is being requested.  
+
+### **Example Request**  
+To retrieve the loan history of the user with UFID 000113, send a GET request to:  
+http://localhost:8083/getLoans/000113
+
+
+### **Response**  
+If loans are found, the API returns a list of books that the user has borrowed, including their status.
+
+#### **Success Response (HTTP 200 OK)**  
+- **Allotments (Array):** List of books issued to the user, each containing:  
+  - **ufid:** The unique identifier of the user.  
+  - **bookid:** The ID of the borrowed book.  
+  - **issueDate:** The date when the book was issued.  
+  - **status:** The status of the loan ("active" means the book is currently borrowed, "returned" means it has been returned).  
+  - **dueDate:** The due date by which the book should be returned.  
+  - **returnDate:** The actual return date (if the book has been returned, otherwise it remains as "0001-01-01T00:00:00Z").  
+
+### **Example Response**  
+A user with UFID 000113 has borrowed two books:  
+
+- **Book ID: B138** is currently issued and due on **March 15, 2025**.  
+- **Book ID: B140** was issued on **March 1, 2025, and returned on ****March 10, 2025**.  
+
+### **Error Handling**  
+If no loan records are found or an error occurs, the API may return:
+
+- **404 Not Found:** If no loan history exists for the given ufid.  
+- **500 Internal Server Error:** If an unexpected server issue occurs.  
+
+This API allows users or administrators to check a user's loan history, including active and returned books. If records exist, they are returned in an array format with relevant loan details.
+
+## **10. Get All Loan Records API**  
+
+### **Endpoint**  
+The API for retrieving all book loan records is available at:  
+GET http://localhost:8083/getAllLoans  
+
+### **Content Type**  
+application/json  
+
+### **Authentication**  
+This endpoint may require authentication, particularly for administrators managing loan records.  
+
+### **Response**  
+If loan records are found, the API returns a list of all book loans, including issued and returned books.
+
+#### **Success Response (HTTP 200 OK)**  
+- **Loans (Array):** List of all loan records in the system, each containing:  
+  - **ufid:** The unique identifier of the user.  
+  - **bookid:** The ID of the borrowed book.  
+  - **issueDate:** The date when the book was issued.  
+  - **status:** The status of the loan ("active" means the book is currently borrowed, "returned" means it has been returned).  
+  - **dueDate:** The due date by which the book should be returned.  
+  - **returnDate:** The actual return date (if the book has been returned, otherwise it remains "0001-01-01T00:00:00Z").  
+
+### **Example Response**  
+A list of book loans, including:  
+
+- **User 999995** borrowed multiple books, some of which were returned late.  
+- **User 000113** has an active loan for **Book B138**.  
+- **User 000114** has an active loan for **Book B140**.  
+- **User 000113** has previously returned **Book B140** on **March 10, 2025**.  
+
+### **Error Handling**  
+If no loan records exist or an error occurs, the API may return:
+
+- **404 Not Found:** If no loan records are available in the system.  
+- **500 Internal Server Error:** If an unexpected server issue occurs.  
+
+This API enables administrators to retrieve a full list of book loans, including active and returned books. It provides an overview of book transactions and helps track overdue books.
+
