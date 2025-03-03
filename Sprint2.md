@@ -114,3 +114,217 @@ We implemented **Go test cases** using `httptest`, `gin-gonic`, and `testify/ass
 - Fetches **all issued books** for a specific user (`UFID`).  
 - Ensure a **user with active loans receives a `200 OK`** response with loan details.
 - Validate that a **user with no active loans gets a `404 Not Found`** response.
+
+
+
+# GatorReads API Documentation
+
+The API Documentation for GatorReads provides a comprehensive guide on how to interact with the GatorReads backend system via various endpoints. These APIs facilitate a range of functionalities, including user registration, sign-in and sign-out processes, book management (such as adding, fetching, and returning books), and handling loan records. Each API endpoint is described with its method, request parameters, authentication requirements, expected responses, and error handling, making it easy for developers to integrate and use these services in application development. This documentation serves as a crucial tool for understanding how to effectively communicate with the GatorReads system to manage users, books, and loan records within the platform.
+
+---
+
+## **1. User Registration API**
+
+**Endpoint:** `POST http://localhost:8083/register`  
+**Content Type:** `application/json`  
+**Authentication:** Not required  
+
+### **Request Parameters**
+- **userType** (String, Required): Defines the type of user (e.g., "Student").
+- **userFullName** (String, Required): The full name of the user.
+- **ufid** (String, Required): A unique identifier for the user.
+- **dob** (String, Required): The date of birth of the user in `YYYY-MM-DD` format.
+- **gender** (String, Required): The gender of the user (e.g., "Male", "Female", "Other").
+- **email** (String, Required): The email address of the user.
+- **password** (String, Required): The user's password, which should follow security guidelines.
+- **isAdmin** (Boolean, Required): A flag indicating whether the user has admin privileges (`true` for admin, `false` for a regular user).
+
+### **Response**
+#### **Success Response (HTTP 200 OK)**
+```json
+{
+  "message": "User registered successfully"
+}
+```
+### **Error Handling**  
+If an error occurs, the API may return one of the following responses:
+
+- **400 Bad Request:** This happens if required fields are missing or invalid.  
+- **409 Conflict:** If a user with the provided email or UFID already exists.  
+- **500 Internal Server Error:** If the server encounters an unexpected issue.  
+
+This API allows users to create an account by submitting their personal details. The server processes the request and, if all details are valid, registers the user successfully.
+
+## **2. User Sign-in API**  
+
+### **Endpoint**  
+The API for user login is available at:  
+`POST http://localhost:8083/signin`  
+
+### **Content Type**  
+`application/json`  
+
+### **Authentication**  
+This endpoint does not require authentication, but users must provide valid credentials.  
+
+### **Request Parameters**  
+The request body must contain the following fields:
+
+- **ufId** (String, Required): The unique user identifier used for login.  
+- **password** (String, Required): The user's password.  
+
+### **Example Request**  
+A valid request should contain the UFID and password in JSON format.  
+
+### **Response**  
+Upon successful authentication, the API returns a JSON response containing a success message and user details.
+
+#### **Success Response (HTTP 200 OK)**  
+- **Message:** `"Login successful"`  
+- **User Details:**  
+  - **ID:** Unique user ID assigned by the system.  
+  - **CreatedAt:** Timestamp of when the user was created.  
+  - **UpdatedAt:** Timestamp of the last user update.  
+  - **DeletedAt:** If the account is deleted, this field will have a timestamp; otherwise, it remains `null`.  
+  - **userType:** Defines the role of the user (e.g., "Student").  
+  - **userFullName:** The full name of the user.  
+  - **ufid:** The unique identifier of the user.  
+  - **dob:** The date of birth of the user in `YYYY-MM-DD` format.  
+  - **gender:** The gender of the user.  
+  - **email:** The email address of the user.  
+  - **password:** A hashed version of the user's password for security.  
+  - **isAdmin:** A boolean flag indicating if the user has admin privileges (`true` for admin, `false` for regular users).  
+
+### **Error Handling**  
+If the login fails, the API returns one of the following errors:
+
+- **400 Bad Request:** If required fields are missing or invalid.  
+- **401 Unauthorized:** If the UFID or password is incorrect.  
+- **500 Internal Server Error:** If an unexpected server error occurs.  
+
+This API allows users to log in by providing their UFID and password. If the credentials are valid, the server responds with a success message and the user's details.
+
+## **3. User Sign-out API**  
+
+### **Endpoint**  
+The API for user logout is available at:  
+`POST http://localhost:8083/signout`  
+
+### **Content Type**  
+`application/json`  
+
+### **Authentication**  
+No authentication token is required, but the request must contain a valid UFID.  
+
+### **Request Parameters**  
+The request body must contain the following field:
+
+- **ufId** (String, Required): The unique identifier of the user who is logging out.  
+
+### **Example Request**  
+A valid request should include the user's UFID in JSON format.  
+
+### **Response**  
+Upon successful logout, the API returns a confirmation message and the UFID of the logged-out user.
+
+#### **Success Response (HTTP 200 OK)**  
+- **Message:** `"User logged out successfully"`  
+- **UserId:** The UFID of the user who logged out.  
+
+### **Error Handling**  
+If the logout fails, the API returns one of the following errors:
+
+- **400 Bad Request:** If the UFID is missing or invalid.  
+- **404 Not Found:** If the user with the provided UFID is not found.  
+- **500 Internal Server Error:** If an unexpected error occurs on the server.  
+
+This API enables users to log out by submitting their UFID. Upon successful logout, the system confirms the action with a success message.
+
+## **4. Add Book API**  
+
+### **Endpoint**  
+The API for adding a book is available at:  
+`POST http://localhost:8083/addBook`  
+
+### **Content Type**  
+`application/json`  
+
+### **Authentication**  
+Depending on system design, this endpoint may require authentication or admin privileges to add books.  
+
+### **Request Parameters**  
+The request body must include the following details:
+
+- **bookId** (String, Required): A unique identifier for the book.  
+- **bookType** (String, Required): The category of the book (e.g., Fiction, Non-Fiction, Science, etc.).  
+- **bookFullName** (String, Required): The full title of the book.  
+- **bookCount** (Integer, Required): The number of copies available.  
+- **authorName** (String, Required): The name of the book’s author.  
+- **imageData** (String, Optional): Base64 encoded string representing the book's cover image.  
+
+### **Example Request**  
+A valid request should contain the book details in JSON format.  
+
+### **Response**  
+Upon successful addition, the API returns a success message along with the book details.
+
+#### **Success Response (HTTP 200 OK)**  
+- **Message:** `"Book added successfully"`  
+- **Book Details:**  
+  - **bookId:** Unique identifier for the book.  
+  - **bookType:** The category of the book.  
+  - **bookFullName:** The full title of the book.  
+  - **bookCount:** Number of copies available.  
+  - **authorName:** Name of the book's author.  
+  - **imageData:** Base64 string of the book cover image.  
+
+### **Error Handling**  
+If the book addition fails, the API returns one of the following errors:
+
+- **400 Bad Request:** If required fields are missing or invalid.  
+- **409 Conflict:** If a book with the same `bookId` already exists.  
+- **500 Internal Server Error:** If an unexpected server error occurs.  
+
+This API allows users to add books to the system by providing book details. If the book is added successfully, the system confirms the action and returns the book’s information.
+
+## **Get Book API**  
+
+### **Endpoint**  
+The API for retrieving a book's details is available at:  
+`GET http://localhost:8083/getBook/{bookId}`  
+
+### **Content Type**  
+`application/json`  
+
+### **Authentication**  
+Authentication may be required based on system access control.  
+
+### **Path Parameter**  
+- **bookId** (String, Required): The unique identifier of the book to retrieve.  
+
+### **Example Request**  
+To retrieve details of a book with ID `B140`, send a `GET` request to:  
+http://localhost:8083/getBook/B140
+
+
+### **Response**  
+If the book is found, the API returns its details.
+
+#### **Success Response (HTTP 200 OK)**  
+- **Book Details:**  
+  - **bookId:** Unique identifier of the book.  
+  - **bookType:** The category of the book (e.g., Fiction, Non-Fiction).  
+  - **bookFullName:** The full title of the book.  
+  - **bookCount:** Number of copies available.  
+  - **issueDate:** The date when the book was issued (default `"0001-01-01T00:00:00Z"` if not issued).  
+  - **authorName:** Name of the book’s author.  
+  - **imageData:** Base64 encoded string representing the book's cover image.  
+
+### **Error Handling**  
+If the book is not found or an error occurs, the API may return:
+
+- **404 Not Found:** If no book exists with the given `bookId`.  
+- **500 Internal Server Error:** If an unexpected server issue occurs.  
+
+This API allows users to retrieve book details by providing a book ID. If the book is found, the system returns relevant details including its title, author, availability, and cover image.
+
