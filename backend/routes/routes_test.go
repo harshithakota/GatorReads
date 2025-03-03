@@ -75,3 +75,12 @@ func TestAddBook(t *testing.T) {
 
 	assert.Contains(t, []int{http.StatusCreated, http.StatusInternalServerError}, w.Code)
 }
+
+func TestGetAllBooks(t *testing.T) {
+	router := setupRouter()
+	req, _ := http.NewRequest("GET", "/getAllBooks", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	assert.Contains(t, []int{http.StatusOK, http.StatusNotFound}, w.Code)
+}
