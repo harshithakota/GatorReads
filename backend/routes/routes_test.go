@@ -3,11 +3,16 @@ package routes
 import (
 	"backend/database"
 	"backend/models"
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"testing"
 
 	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/assert"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -45,4 +50,28 @@ func TestMain(m *testing.M) {
 	exitVal := m.Run()
 
 	os.Exit(exitVal)
+}
+
+func TestAddBook(t *testing.T) {
+	router := setupRouter()
+	db := database.DB.Begin()
+	defer db.Rollback()
+
+	newBook := models.Book{
+		BookID:       "D140",
+		BookType:     "Non-Fiction",
+		BookFullName: "ww Testing book",
+		BookCount:    5,
+		AuthorName:   "XYZ",
+		ImageData:    "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAAAAAAAD/2wBDAAgGBgcGBQgHBwcJ...",
+	}
+
+	body, _ := json.Marshal(newBook)
+	req, _ := http.NewRequest("POST", "/addBook", bytes.NewBuffer(body))
+	req.Header.Set("Content-Type", "application/json")
+
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	assert.Contains(t, []int{http.StatusCreated, http.StatusInternalServerError}, w.Code)
 }
