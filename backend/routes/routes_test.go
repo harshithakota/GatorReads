@@ -107,3 +107,25 @@ func TestIssueBook(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, "Book issued successfully", response["message"])
 }
+
+func TestReturnBook(t *testing.T) {
+	router := setupRouter()
+	reqBody := models.IssueBookRequest{
+		UFID:       "000112",
+		BookID:     "D140",
+		ReturnDate: time.Date(2025, time.March, 15, 0, 0, 0, 0, time.UTC),
+	}
+
+	body, _ := json.Marshal(reqBody)
+	req, _ := http.NewRequest("POST", "/returnBook", bytes.NewBuffer(body))
+	req.Header.Set("Content-Type", "application/json")
+
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	var response map[string]interface{}
+	err := json.Unmarshal(w.Body.Bytes(), &response)
+	assert.Nil(t, err)
+	assert.Equal(t, "Book returned successfully", response["message"])
+}
