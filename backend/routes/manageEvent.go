@@ -108,28 +108,28 @@ func UpdateEvent(c *gin.Context) {
 }
 
 // // DeleteEvent deletes an event
-// func DeleteEvent(c *gin.Context) {
-// 	eventId := c.Param("eventId")
-// 	if eventId == "" {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing eventId parameter"})
-// 		return
-// 	}
+func DeleteEvent(c *gin.Context) {
+	eventId := c.Param("eventId")
+	if eventId == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing eventId parameter"})
+		return
+	}
 
-// 	var event models.Event
-// 	result := database.DB.First(&event, "event_id = ?", eventId)
-// 	if result.Error != nil {
-// 		if result.Error == gorm.ErrRecordNotFound {
-// 			c.JSON(http.StatusNotFound, gin.H{"error": "Event not found"})
-// 		} else {
-// 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retrieving event"})
-// 		}
-// 		return
-// 	}
+	var event models.Event
+	result := database.DB.First(&event, "event_id = ?", eventId)
+	if result.Error != nil {
+		if result.Error == gorm.ErrRecordNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Event not found"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retrieving event"})
+		}
+		return
+	}
 
-// 	if err := database.DB.Delete(&event).Error; err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error deleting event", "details": err.Error()})
-// 		return
-// 	}
+	if err := database.DB.Delete(&event).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error deleting event", "details": err.Error()})
+		return
+	}
 
-// 	c.JSON(http.StatusOK, gin.H{"message": "Event deleted successfully"})
-// }
+	c.JSON(http.StatusOK, gin.H{"message": "Event deleted successfully"})
+}
