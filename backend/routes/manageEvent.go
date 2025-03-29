@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 func GetAllEvents(c *gin.Context) {
@@ -43,27 +44,27 @@ func AddEvent(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"message": "Event added successfully", "event": newEvent})
 }
 
-// // GetEvent retrieves a single event by its ID
-// func GetEvent(c *gin.Context) {
-// 	eventId := c.Param("eventId")
-// 	if eventId == "" {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing eventId parameter"})
-// 		return
-// 	}
+// GetEvent retrieves a single event by its ID
+func GetEvent(c *gin.Context) {
+	eventId := c.Param("eventId")
+	if eventId == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing eventId parameter"})
+		return
+	}
 
-// 	var event models.Event
-// 	result := database.DB.First(&event, "event_id = ?", eventId)
-// 	if result.Error != nil {
-// 		if result.Error == gorm.ErrRecordNotFound {
-// 			c.JSON(http.StatusNotFound, gin.H{"error": "Event not found"})
-// 		} else {
-// 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retrieving event", "details": result.Error.Error()})
-// 		}
-// 		return
-// 	}
+	var event models.Event
+	result := database.DB.First(&event, "event_id = ?", eventId)
+	if result.Error != nil {
+		if result.Error == gorm.ErrRecordNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Event not found"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retrieving event", "details": result.Error.Error()})
+		}
+		return
+	}
 
-// 	c.JSON(http.StatusOK, gin.H{"event": event})
-// }
+	c.JSON(http.StatusOK, gin.H{"event": event})
+}
 
 // // UpdateEvent updates an existing event
 // func UpdateEvent(c *gin.Context) {
