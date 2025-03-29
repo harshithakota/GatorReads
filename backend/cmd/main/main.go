@@ -38,9 +38,9 @@ func main() {
 
 	r.POST("/addEvent", routes.AddEvent)
 	r.GET("/getEvent/:eventId", routes.GetEvent)
-	// r.GET("/getAllEvents", routes.GetAllEvents)
-	// r.DELETE("/deleteEvent/:eventId", routes.DeleteEvent)
-	// r.PUT("/updateEvent/:eventId", routes.UpdateEvent)
+	r.GET("/getAllEvents", routes.GetAllEvents)
+	r.DELETE("/deleteEvent/:eventId", routes.DeleteEvent)
+	r.PUT("/updateEvent/:eventId", routes.UpdateEvent)
 
 	r.Run(":8083")
 }
