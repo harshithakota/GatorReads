@@ -27,21 +27,21 @@ func GetAllEvents(c *gin.Context) {
 
 }
 
-// // AddEvent creates a new event
-// func AddEvent(c *gin.Context) {
-// 	var newEvent models.Event
-// 	if err := c.ShouldBindJSON(&newEvent); err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid event data", "details": err.Error()})
-// 		return
-// 	}
+// AddEvent creates a new event
+func AddEvent(c *gin.Context) {
+	var newEvent models.Event
+	if err := c.ShouldBindJSON(&newEvent); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid event data", "details": err.Error()})
+		return
+	}
 
-// 	if err := database.DB.Create(&newEvent).Error; err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error adding event", "details": err.Error()})
-// 		return
-// 	}
+	if err := database.DB.Create(&newEvent).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error adding event", "details": err.Error()})
+		return
+	}
 
-// 	c.JSON(http.StatusCreated, gin.H{"message": "Event added successfully", "event": newEvent})
-// }
+	c.JSON(http.StatusCreated, gin.H{"message": "Event added successfully", "event": newEvent})
+}
 
 // // GetEvent retrieves a single event by its ID
 // func GetEvent(c *gin.Context) {
