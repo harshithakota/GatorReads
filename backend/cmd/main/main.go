@@ -27,7 +27,7 @@ func main() {
 
 	r.GET("/getAllBooks", routes.GetAllBooks)
 	r.POST("/addBook", routes.AddBook)
-	// r.DELETE("/deleteBook/:bookId", routes.DeleteBook)
+	r.DELETE("/deleteBook/:bookId", routes.DeleteBook)
 	r.GET("/getBook/:bookId", routes.GetBook)
 
 	r.POST("/issueBook", routes.IssueBook)
@@ -36,8 +36,8 @@ func main() {
 	r.GET("/getAllLoans", routes.AllLoans)
 	r.GET("/getLoans/:ufId", routes.GetLoans)
 
-	// r.POST("/addEvent", routes.AddEvent)
-	// r.GET("/getEvent/:eventId", routes.GetEvent)
+	r.POST("/addEvent", routes.AddEvent)
+	r.GET("/getEvent/:eventId", routes.GetEvent)
 	// r.GET("/getAllEvents", routes.GetAllEvents)
 	// r.DELETE("/deleteEvent/:eventId", routes.DeleteEvent)
 	// r.PUT("/updateEvent/:eventId", routes.UpdateEvent)
