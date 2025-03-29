@@ -3,6 +3,7 @@ package routes
 import (
 	"backend/database"
 	"backend/models"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -80,31 +81,31 @@ func UpdateEvent(c *gin.Context) {
 		return
 	}
 
-// 	// Fetch the existing event first to make sure it exists and to update it
-// 	var existingEvent models.Event
-// 	if err := database.DB.Where("event_id = ?", eventId).First(&existingEvent).Error; err != nil {
-// 		if errors.Is(err, gorm.ErrRecordNotFound) {
-// 			c.JSON(http.StatusNotFound, gin.H{"error": "Event not found"})
-// 		} else {
-// 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retrieving event", "details": err.Error()})
-// 		}
-// 		return
-// 	}
+	// Fetch the existing event first to make sure it exists and to update it
+	var existingEvent models.Event
+	if err := database.DB.Where("event_id = ?", eventId).First(&existingEvent).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Event not found"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retrieving event", "details": err.Error()})
+		}
+		return
+	}
 
-// 	// Update the existing event with the new data provided
-// 	if err := database.DB.Model(&existingEvent).Updates(inputEvent).Error; err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error updating event", "details": err.Error()})
-// 		return
-// 	}
+	// Update the existing event with the new data provided
+	if err := database.DB.Model(&existingEvent).Updates(inputEvent).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error updating event", "details": err.Error()})
+		return
+	}
 
-// 	// Re-fetch the updated event to ensure the response includes the latest data
-// 	if err := database.DB.Where("event_id = ?", eventId).First(&existingEvent).Error; err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retrieving updated event", "details": err.Error()})
-// 		return
-// 	}
+	// Re-fetch the updated event to ensure the response includes the latest data
+	if err := database.DB.Where("event_id = ?", eventId).First(&existingEvent).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retrieving updated event", "details": err.Error()})
+		return
+	}
 
-// 	c.JSON(http.StatusOK, gin.H{"message": "Event updated successfully", "event": existingEvent})
-// }
+	c.JSON(http.StatusOK, gin.H{"message": "Event updated successfully", "event": existingEvent})
+}
 
 // // DeleteEvent deletes an event
 // func DeleteEvent(c *gin.Context) {
