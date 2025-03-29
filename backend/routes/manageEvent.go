@@ -66,19 +66,19 @@ func GetEvent(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"event": event})
 }
 
-// // UpdateEvent updates an existing event
-// func UpdateEvent(c *gin.Context) {
-// 	eventId := c.Param("eventId")
-// 	if eventId == "" {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing eventId parameter"})
-// 		return
-// 	}
+// UpdateEvent updates an existing event
+func UpdateEvent(c *gin.Context) {
+	eventId := c.Param("eventId")
+	if eventId == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing eventId parameter"})
+		return
+	}
 
-// 	var inputEvent models.Event
-// 	if err := c.ShouldBindJSON(&inputEvent); err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid event data", "details": err.Error()})
-// 		return
-// 	}
+	var inputEvent models.Event
+	if err := c.ShouldBindJSON(&inputEvent); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid event data", "details": err.Error()})
+		return
+	}
 
 // 	// Fetch the existing event first to make sure it exists and to update it
 // 	var existingEvent models.Event
