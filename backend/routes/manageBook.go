@@ -60,3 +60,30 @@ func AddBook(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{"message": "Book added successfully", "book": newBook})
 }
+
+// func DeleteBook(c *gin.Context) {
+// 	bookId := c.Param("bookId")
+// 	if bookId == "" {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing bookId parameter"})
+// 		return
+// 	}
+
+// 	var book models.Book
+// 	result := database.DB.First(&book, "book_id = ?", bookId)
+// 	if result.Error != nil {
+// 		if result.Error == gorm.ErrRecordNotFound {
+// 			c.JSON(http.StatusNotFound, gin.H{"error": "Book not found"})
+// 		} else {
+// 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retrieving book"})
+// 		}
+// 		return
+// 	}
+
+// 	// If book is found, delete it
+// 	if err := database.DB.Delete(&book).Error; err != nil {
+// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error deleting book", "details": err.Error()})
+// 		return
+// 	}
+
+// 	c.JSON(http.StatusOK, gin.H{"message": "Book deleted successfully"})
+// }
