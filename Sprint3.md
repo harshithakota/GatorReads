@@ -124,6 +124,72 @@ Conducted extensive user interface enhancements to improve visual appeal and use
 
 These tests cover critical functionalities of the application, ensuring robustness and reliability of the platform through systematic validation of user flows and backend integration.
 
+## **Unit and Integration Tests for Backend API**
+We implemented **Go test cases** using `httptest`, `gin-gonic`, and `testify/assert` to validate critical API functionalities in the backend. The following test cases were covered:
+
+#### **Get All Books (`TestGetAllBooks`)**
+- Ensures that **all available books** are retrieved successfully.  
+- Verify that the endpoint responds with **`200 OK`** when books exist.
+- Ensure that if no books are available, the response is **`404 Not Found`**.
+
+#### **Get Specific Book (`TestGetBook`)**
+- Fetches details of a book using its **`bookId`**.
+- Ensure that a **valid `bookId`** returns **`200 OK`** with book details.
+- Validate that an **invalid `bookId`** returns **`404 Not Found`**.
+
+#### **Add New Book (`TestAddBook`)**
+- Allows **admins** to **add books** to the library.  
+- Ensure that a new book can be added with **all required details** (**`201 Created`**).
+- Validate that adding a book with an **existing `bookId`** returns **`500 Internal Server Error`**.
+
+#### **Issue a Book (`TestIssueBook`)**
+- Enables **students to borrow books**.  
+- Ensure that a book can be **successfully issued** (**`200 OK`**).
+- Validate that **trying to issue a book that is out of stock** returns **`400 Bad Request`**.
+- Verify that **issuing an already borrowed book** maintains the **correct loan record**.
+
+#### **Return a Book (`TestReturnBook`)**
+- Allows **students to return borrowed books**.  
+- Ensure a **borrowed book is marked as returned** (**`200 OK`**).
+- Validate that **returning a book that was never issued** returns **`404 Not Found`**.
+
+#### **Get All Loans (`TestAllLoans`)**
+- Retrieves a **list of all active and past loans**.  
+- Ensure the API returns **`200 OK`** when loans exist.
+- Verify **`404 Not Found`** if no loans exist.
+
+#### **Get Loans by UFID (`TestGetLoans`)**
+- Fetches **all issued books** for a specific user (`UFID`).  
+- Ensure a **user with active loans receives a `200 OK`** response with loan details.
+- Validate that a **user with no active loans gets a `404 Not Found`** response.
+
+### **Delete Book (TestDeleteBook)**
+- Deletes a book using its bookId.
+- Returns **200 OK** on successful deletion.
+- Returns **404 Not Found** if the book does not exist.
+  
+### **Add Event (TestAddEvent)**
+- Adds a new event to the system.
+- Returns **201 Created** with event data.
+- Returns **400 Bad Request** if data is invalid.
+
+### **Get All Events (TestGetAllEvents)**
+- Retrieves a list of all scheduled events.
+- Returns **200 OK** with event list or **404 Not Found** if none exist.
+
+### **Get Event by ID (TestGetEvent)**
+- Fetches an event using eventId.
+- Returns **200 OK** with event details or **404 Not Found**.
+
+### **Update Event (TestUpdateEvent)**
+- Updates existing event data.
+- Returns **200 OK** with updated event.
+- Returns **404 Not Found** if event does not exist.
+
+### **Delete Event (TestDeleteEvent)**
+- Deletes an event by ID.
+- Returns **200 OK** on success.
+- Returns **404 Not Found** if event is not found.
 
 # GatorReads API Documentation
 
