@@ -295,7 +295,7 @@ If the book addition fails, the API returns one of the following errors:
 
 This API allows users to add books to the system by providing book details. If the book is added successfully, the system confirms the action and returns the book’s information.
 
-## **Get Book API**  
+## **6. Get Book API**  
 
 ### **Endpoint**  
 The API for retrieving a book's details is available at:  
