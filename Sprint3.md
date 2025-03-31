@@ -42,6 +42,23 @@ Conducted extensive user interface enhancements to improve visual appeal and use
 - **Delete Book API**  
   Implemented an API to delete books by `bookId`, ensuring safe deletion with robust error handling.
 
+### Technical Enhancements  
+
+- **Error Handling & Validation**  
+  Integrated consistent and descriptive error messages across all event-related APIs to enhance robustness and security.  
+
+- **RESTful API Design**  
+  Utilized the high-performance Gin framework to maintain clean, modular, and scalable RESTful APIs.  
+
+- **GORM Integration with PostgreSQL**  
+  Leveraged GORM ORM for efficient and structured query handling with the PostgreSQL database.  
+
+- **Input Data Validation**  
+  Implemented built-in validation methods to ensure incoming JSON payloads adhere to the expected schema before processing.  
+
+- **Seamless Backend Integration**  
+  Ensured APIs are fully integrated with the backend system, following scalable design patterns to facilitate future extensions. 
+
 
 ## Cypress End-to-End (E2E) Tests
 
