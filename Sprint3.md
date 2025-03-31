@@ -361,7 +361,7 @@ If the book addition fails, the API returns one of the following errors:
 
 This API allows users to add books to the system by providing book details. If the book is added successfully, the system confirms the action and returns the book’s information.
 
-## **6. Get Book API**  
+## **5. Get Book API**  
 
 ### **Endpoint**  
 The API for retrieving a book's details is available at:  
@@ -721,3 +721,80 @@ Admin authentication may be required.
 - **500 Internal Server Error:** Event creation failed.
 
 ---
+
+## *14. Get Event by ID API*
+
+### *Endpoint*
+GET http://localhost:8083/getEvent/{eventId}
+
+### *Content Type*
+application/json
+
+### *Path Parameter*
+- *eventId* (String, Required)
+
+### *Response*
+#### *Success Response (HTTP 200 OK)*
+json
+{
+  "event": { ... }
+}
+
+
+### *Error Handling*
+- *400 Bad Request:* Missing or malformed eventId.
+- *404 Not Found:* Event not found.
+- *500 Internal Server Error:* Database error.
+
+---
+
+## *15. Update Event API*
+
+### *Endpoint*
+PUT http://localhost:8083/updateEvent/{eventId}
+
+### *Content Type*
+application/json
+
+### *Request Body*
+- Same as Add Event, excluding eventId (as it's provided via path)
+
+### *Response*
+#### *Success Response (HTTP 200 OK)*
+json
+{
+  "message": "Event updated successfully",
+  "event": { ... }
+}
+
+
+### *Error Handling*
+- *400 Bad Request:* Missing fields or bad input.
+- *404 Not Found:* Event with eventId not found.
+- *500 Internal Server Error:* Database error.
+
+---
+
+## *16. Delete Event API*
+
+### *Endpoint*
+DELETE http://localhost:8083/deleteEvent/{eventId}
+
+### *Content Type*
+application/json
+
+### *Path Parameter*
+- *eventId* (String, Required)
+
+### *Response*
+#### *Success Response (HTTP 200 OK)*
+json
+{
+  "message": "Event deleted successfully"
+}
+
+
+### *Error Handling*
+- *400 Bad Request:* Missing eventId.
+- *404 Not Found:* No event exists for the given ID.
+- *500 Internal Server Error:* Failed to delete event.
