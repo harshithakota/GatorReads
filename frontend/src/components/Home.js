@@ -5,6 +5,7 @@ import WelcomeBox from '../components/WelcomeBox'
 import Stats from '../components/Stats'
 import PopularBooks from '../components/PopularBooks'
 import RecentAddedBooks from '../components/RecentAddedBooks'
+import Events from '../components/Events'
 
 function Home() {
     return (
@@ -14,6 +15,7 @@ function Home() {
             <Stats/>
             <RecentAddedBooks/>
             <PopularBooks/>
+            <Events />
         </div>
     )
 }
