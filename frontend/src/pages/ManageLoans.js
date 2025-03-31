@@ -1,54 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   Container, Typography, Table, TableBody, TableCell, TableContainer, 
   TableHead, TableRow, Paper, Button, Chip 
 } from "@mui/material";
 
-// Dummy Loan Data (Replace with API later)
-const dummyLoans = [
-  {
-    id: 1,
-    borrower: "John Doe",
-    title: "Introduction to Algorithms",
-    author: "Thomas H. Cormen",
-    loanDate: "2024-02-10",
-    dueDate: "2024-02-24",
-    status: "Active"
-  },
-  {
-    id: 2,
-    borrower: "Alice Smith",
-    title: "Clean Code",
-    author: "Robert C. Martin",
-    loanDate: "2024-01-20",
-    dueDate: "2024-02-03",
-    status: "Overdue"
-  },
-  {
-    id: 3,
-    borrower: "Bob Johnson",
-    title: "The Pragmatic Programmer",
-    author: "Andrew Hunt & David Thomas",
-    loanDate: "2024-02-01",
-    dueDate: "2024-02-15",
-    status: "Active"
-  }
-];
-
 export default function ManageLoans() {
-  const [loans, setLoans] = useState(dummyLoans);
+  const [loans, setLoans] = useState([]);
 
-  // Function to simulate returning a book
-  const handleReturnBook = (id) => {
-    const updatedLoans = loans.map((loan) =>
-      loan.id === id ? { ...loan, status: "Returned" } : loan
-    );
-    setLoans(updatedLoans);
+  useEffect(() => {
+    fetch("http://localhost:8083/getAllLoans")
+      .then(response => response.json())
+      .then(data => {
+        const formattedLoans = data.Loans.map(loan => ({
+          id: loan.bookid,
+          borrower: loan.ufid,
+          loanDate: loan.issueDate.split("T")[0],
+          dueDate: loan.dueDate.split("T")[0],
+          status: capitalizeFirstLetter(loan.status)
+        }));
+        setLoans(formattedLoans);
+      })
+      .catch(error => console.error('Error fetching loans:', error));
+  }, []);
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  const handleReturnBook = (loanId) => {
+    const loan = loans.find(l => l.id === loanId);
+    if (!loan) return;
+
+    const reqBody = {
+      UFID: loan.borrower,
+      BookID: loanId,
+      ReturnDate: new Date().toISOString() // Adjust based on actual requirements
+    };
+
+    fetch("http://localhost:8083/returnBook", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reqBody)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.message === "Book returned successfully") {
+        const updatedLoans = loans.map(loan => 
+          loan.id === loanId ? { ...loan, status: "Returned" } : loan
+        );
+        setLoans(updatedLoans);
+      } else {
+        console.error('Failed to return book:', data.message);
+      }
+    })
+    .catch(error => console.error('Error returning book:', error));
   };
 
   return (
-    <Container maxWidth="md" sx={{ marginTop: "50px", marginBottom: "50px" }}>
-      {/* Page Title */}
+    <Container maxWidth="md" sx={{ marginTop: "150px", marginBottom: "50px" }}>
       <Typography variant="h4" sx={{ mb: 1, textAlign: "center", fontWeight: "bold", color: "#1976D2" }}>
         Manage Book Loans
       </Typography>
@@ -56,7 +67,6 @@ export default function ManageLoans() {
         View and manage all active loans
       </Typography>
 
-      {/* Loan Table */}
       <TableContainer component={Paper} sx={{ boxShadow: 3 }}>
         <Table>
           <TableHead sx={{ backgroundColor: "#1976D2" }}>
@@ -69,12 +79,11 @@ export default function ManageLoans() {
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>Actions</TableCell>
             </TableRow>
           </TableHead>
-
           <TableBody>
             {loans.map((loan) => (
               <TableRow key={loan.id}>
                 <TableCell>{loan.borrower}</TableCell>
-                <TableCell>{loan.title}</TableCell>
+                <TableCell>{loan.title || 'Unknown Title'}</TableCell>
                 <TableCell>{loan.loanDate}</TableCell>
                 <TableCell>{loan.dueDate}</TableCell>
                 <TableCell>
