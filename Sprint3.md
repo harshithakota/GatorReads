@@ -18,6 +18,31 @@ Conducted extensive user interface enhancements to improve visual appeal and use
 - **Responsive Design**: Enhanced responsiveness across various devices, ensuring that the application is accessible and efficiently usable on desktops, tablets, and smartphones.
 - **Accessibility Improvements**: Increased focus on accessibility, making sure that the application is navigable and usable for people with disabilities. This includes color adjustments for better contrast, keyboard navigability, and screen reader support.
 
+
+## Backend
+### Event Management APIs
+
+- **Get All Events API**  
+  Developed an endpoint to retrieve the complete list of all available events from the database.
+
+- **Get Specific Event API**  
+  Implemented functionality to fetch detailed information of a particular event using its unique `eventId`.
+
+- **Add Event API**  
+  Enabled creation of new events through a JSON-based POST request, with proper request body validation.
+
+- **Update Event API**  
+  Developed the logic to update existing event records, ensuring validation, and re-fetching updated data for accurate response delivery.
+
+- **Delete Event API**  
+  Added the ability to delete events using `eventId`, with appropriate error responses for missing or invalid IDs.
+
+### Book Management Extension
+
+- **Delete Book API**  
+  Implemented an API to delete books by `bookId`, ensuring safe deletion with robust error handling.
+
+
 ## Cypress End-to-End (E2E) Tests
 
 ### Login Page (`login.cy.js`)
