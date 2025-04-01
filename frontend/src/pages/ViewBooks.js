@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { 
-  Container, Typography, Grid, Card, CardContent, Divider, CircularProgress, Alert
+  Container, Typography, Grid, Card, CardContent, Divider, CircularProgress, Alert, Button, CardActions
 } from "@mui/material";
 import axios from "axios";
 
 export default function ViewBooks() {
   const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(true); // ✅ Loading state
-  const [error, setError] = useState(null); // ✅ Error state
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // 📌 Fetch Books from API on component mount
   useEffect(() => {
+    fetchBooks();
+  }, []);
+
+  const fetchBooks = () => {
     axios.get("http://localhost:8083/getAllBooks")
       .then(response => {
-        setBooks(response.data.books || []); // ✅ Ensure books are in the correct format
+        setBooks(response.data.books || []);
         setLoading(false);
       })
       .catch(error => {
@@ -21,11 +24,24 @@ export default function ViewBooks() {
         setError("Failed to fetch books. Please try again later.");
         setLoading(false);
       });
-  }, []);
+  };
+
+  const deleteBook = (bookId) => {
+    axios.delete(`http://localhost:8083/deleteBook/${bookId}`)
+      .then(response => {
+        if (response.status === 200) {
+          setBooks(prevBooks => prevBooks.filter(book => book.bookId !== bookId));
+          alert('Book deleted successfully');
+        }
+      })
+      .catch(error => {
+        console.error("Error deleting book:", error);
+        alert('Failed to delete book');
+      });
+  };
 
   return (
     <Container maxWidth="md" sx={{ marginTop: "120px", marginBottom: "50px" }}>
-      {/* Page Title */}
       <Typography variant="h4" sx={{ mb: 1, textAlign: "center", fontWeight: "bold", color: "#1976D2" }}>
         Library Book Collection
       </Typography>
@@ -33,7 +49,6 @@ export default function ViewBooks() {
         Explore the available books in the library
       </Typography>
 
-      {/* ✅ Show Loading Spinner */}
       {loading && (
         <div style={{ textAlign: "center", marginTop: "20px" }}>
           <CircularProgress />
@@ -41,14 +56,12 @@ export default function ViewBooks() {
         </div>
       )}
 
-      {/* ❌ Show Error Message if API Fails */}
       {error && (
         <Alert severity="error" sx={{ mb: 3, textAlign: "center" }}>
           {error}
         </Alert>
       )}
 
-      {/* 📚 Display Books if Fetched */}
       {!loading && !error && (
         <Grid container spacing={3}>
           {books.map((book) => (
@@ -59,13 +72,11 @@ export default function ViewBooks() {
                 borderRadius: "10px",
                 overflow: "hidden"
               }}>
-                {/* Book Image */}
                 <img 
                   src={book.imageData} 
                   alt={book.bookFullName} 
                   style={{ width: "100%", height: "200px", objectFit: "cover" }}
                 />
-
                 <CardContent sx={{ textAlign: "center" }}>
                   <Typography variant="h6" sx={{ fontWeight: "bold", color: "#333" }}>
                     {book.bookFullName}
@@ -73,11 +84,7 @@ export default function ViewBooks() {
                   <Typography variant="body2" sx={{ color: "#555" }}>
                     by <span style={{ fontWeight: "bold" }}>{book.authorName}</span>
                   </Typography>
-
-                  {/* Divider for better spacing */}
                   <Divider sx={{ my: 2 }} />
-
-                  {/* Book Details */}
                   <Typography variant="body2" sx={{ color: "#333", fontSize: "14px" }}>
                     <strong>ISBN:</strong> {book.bookId}
                   </Typography>
@@ -90,6 +97,11 @@ export default function ViewBooks() {
                     {book.bookCount > 0 ? `${book.bookCount} Copies Available` : "Out of Stock"}
                   </Typography>
                 </CardContent>
+                <CardActions sx={{ justifyContent: "center" }}>
+                  <Button variant="outlined" color="error" onClick={() => deleteBook(book.bookId)}>
+                    Delete Book
+                  </Button>
+                </CardActions>
               </Card>
             </Grid>
           ))}

@@ -64,8 +64,8 @@ const AdminDashboard = () => {
                   <Card>
                     <CardContent sx={{ textAlign: 'center' }}>
                       <Bookmark sx={{ fontSize: 40, mb: 1 }} />
-                      <Button variant="contained" fullWidth onClick={() => navigate("/admin/reservations")}>
-                        View Reservations
+                      <Button variant="contained" fullWidth onClick={() => navigate("/addevent")}>
+                        Add Events
                       </Button>
                     </CardContent>
                   </Card>
