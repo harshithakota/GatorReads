@@ -388,69 +388,69 @@ func TestGetEvent(t *testing.T) {
 
 }
 
-// func TestDeleteEvent(t *testing.T) {
-// 	router := setupRouter()
+func TestDeleteEvent(t *testing.T) {
+	router := setupRouter()
 
-// 	// Step 1: Create a mock event to delete
-// 	mockEvent := models.Event{
-// 		EventID: "EVT1743476075113062300",
-// 	}
-// 	_ = database.DB.Create(&mockEvent)
+	// Step 1: Create a mock event to delete
+	mockEvent := models.Event{
+		EventID: "EVT1743476075113062300",
+	}
+	_ = database.DB.Create(&mockEvent)
 
-// 	// Step 2: Prepare DELETE request
-// 	req, _ := http.NewRequest("DELETE", "/deleteEvent/EVT1743476075113062300", nil)
-// 	w := httptest.NewRecorder()
-// 	router.ServeHTTP(w, req)
+	// Step 2: Prepare DELETE request
+	req, _ := http.NewRequest("DELETE", "/deleteEvent/EVT1743476075113062300", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
 
-// 	// Step 3: Assert response
-// 	assert.Equal(t, http.StatusOK, w.Code)
+	// Step 3: Assert response
+	assert.Equal(t, http.StatusOK, w.Code)
 
-// 	var response map[string]interface{}
-// 	err := json.Unmarshal(w.Body.Bytes(), &response)
-// 	assert.Nil(t, err)
-// 	assert.Equal(t, "Event deleted successfully", response["message"])
+	var response map[string]interface{}
+	err := json.Unmarshal(w.Body.Bytes(), &response)
+	assert.Nil(t, err)
+	assert.Equal(t, "Event deleted successfully", response["message"])
 
-// }
+}
 
-// func TestUpdateEvent(t *testing.T) {
-// 	router := setupRouter()
+func TestUpdateEvent(t *testing.T) {
+	router := setupRouter()
 
-// 	// Step 1: Insert a mock event to update
-// 	mockEvent := models.Event{
-// 		EventID: "EVT1743476075484020800",
-// 		// Title:       "Original Title",
-// 		// Description: "Original Description",
-// 		// EventDate:   time.Date(2025, time.March, 25, 0, 0, 0, 0, time.UTC),
-// 		// EventTime:   "2:00 PM - 4:00 PM",
-// 		// Location:    "Hall A",
-// 		// Link:        "https://original.link",
-// 	}
-// 	_ = database.DB.Create(&mockEvent)
+	// Step 1: Insert a mock event to update
+	mockEvent := models.Event{
+		EventID: "EVT1743476075484020800",
+		// Title:       "Original Title",
+		// Description: "Original Description",
+		// EventDate:   time.Date(2025, time.March, 25, 0, 0, 0, 0, time.UTC),
+		// EventTime:   "2:00 PM - 4:00 PM",
+		// Location:    "Hall A",
+		// Link:        "https://original.link",
+	}
+	_ = database.DB.Create(&mockEvent)
 
-// 	// Step 2: Prepare updated event data
-// 	updatedEvent := models.Event{
-// 		Title:       "Updated Title",
-// 		Description: "Updated Description 2",
-// 		EventDate:   time.Date(2025, time.March, 26, 0, 0, 0, 0, time.UTC),
-// 		EventTime:   "3:00 PM - 5:00 PM",
-// 		Location:    "Hall B",
-// 		Link:        "https://updated.link",
-// 	}
+	// Step 2: Prepare updated event data
+	updatedEvent := models.Event{
+		Title:       "Updated Title",
+		Description: "Updated Description 2",
+		EventDate:   time.Date(2025, time.March, 26, 0, 0, 0, 0, time.UTC),
+		EventTime:   "3:00 PM - 5:00 PM",
+		Location:    "Hall B",
+		Link:        "https://updated.link",
+	}
 
-// 	body, _ := json.Marshal(updatedEvent)
-// 	req, _ := http.NewRequest("PUT", "/updateEvent/EVT1743476075484020800", bytes.NewBuffer(body))
-// 	req.Header.Set("Content-Type", "application/json")
+	body, _ := json.Marshal(updatedEvent)
+	req, _ := http.NewRequest("PUT", "/updateEvent/EVT1743476075484020800", bytes.NewBuffer(body))
+	req.Header.Set("Content-Type", "application/json")
 
-// 	// Step 3: Perform the request
-// 	w := httptest.NewRecorder()
-// 	router.ServeHTTP(w, req)
+	// Step 3: Perform the request
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
 
-// 	// Step 4: Validate response
-// 	assert.Equal(t, http.StatusOK, w.Code)
+	// Step 4: Validate response
+	assert.Equal(t, http.StatusOK, w.Code)
 
-// 	var response map[string]interface{}
-// 	err := json.Unmarshal(w.Body.Bytes(), &response)
-// 	assert.Nil(t, err)
-// 	assert.Equal(t, "Event updated successfully", response["message"])
+	var response map[string]interface{}
+	err := json.Unmarshal(w.Body.Bytes(), &response)
+	assert.Nil(t, err)
+	assert.Equal(t, "Event updated successfully", response["message"])
 
-// }
+}
