@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { 
-  Container, Typography, Grid, Card, CardContent, Divider, CircularProgress, Alert, Button, CardActions
+import {
+  Container, Typography, Grid, Card, CardContent, Divider, CircularProgress,
+  Alert, Button, CardActions, Dialog, DialogTitle, DialogContent, Snackbar
 } from "@mui/material";
 import axios from "axios";
+import BookForm from "../components/BookForm"; // adjust if path is different
 
 export default function ViewBooks() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [editingBook, setEditingBook] = useState(null);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   useEffect(() => {
     fetchBooks();
@@ -40,6 +45,19 @@ export default function ViewBooks() {
       });
   };
 
+  const handleEdit = (book) => {
+    setEditingBook(book);
+    setEditDialogOpen(true);
+  };
+
+  const handleUpdateBook = (updatedBook) => {
+    setBooks(prev =>
+      prev.map(book => book.bookId === updatedBook.bookId ? { ...book, ...updatedBook } : book)
+    );
+    setEditDialogOpen(false);
+    setSnackbarOpen(true);
+  };
+
   return (
     <Container maxWidth="md" sx={{ marginTop: "120px", marginBottom: "50px" }}>
       <Typography variant="h4" sx={{ mb: 1, textAlign: "center", fontWeight: "bold", color: "#1976D2" }}>
@@ -66,15 +84,15 @@ export default function ViewBooks() {
         <Grid container spacing={3}>
           {books.map((book) => (
             <Grid item xs={12} sm={6} md={4} key={book.bookId}>
-              <Card sx={{ 
-                transition: "0.3s", 
-                "&:hover": { boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)" }, 
+              <Card sx={{
+                transition: "0.3s",
+                "&:hover": { boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)" },
                 borderRadius: "10px",
                 overflow: "hidden"
               }}>
-                <img 
-                  src={book.imageData} 
-                  alt={book.bookFullName} 
+                <img
+                  src={book.imageData}
+                  alt={book.bookFullName}
                   style={{ width: "100%", height: "200px", objectFit: "cover" }}
                 />
                 <CardContent sx={{ textAlign: "center" }}>
@@ -88,18 +106,21 @@ export default function ViewBooks() {
                   <Typography variant="body2" sx={{ color: "#333", fontSize: "14px" }}>
                     <strong>ISBN:</strong> {book.bookId}
                   </Typography>
-                  <Typography variant="body2" sx={{ 
-                    mt: 1, 
+                  <Typography variant="body2" sx={{
+                    mt: 1,
                     fontWeight: "bold",
                     fontSize: "14px",
-                    color: book.bookCount > 0 ? "green" : "red" 
+                    color: book.bookCount > 0 ? "green" : "red"
                   }}>
                     {book.bookCount > 0 ? `${book.bookCount} Copies Available` : "Out of Stock"}
                   </Typography>
                 </CardContent>
                 <CardActions sx={{ justifyContent: "center" }}>
-                  <Button variant="outlined" color="error" onClick={() => deleteBook(book.bookId)}>
-                    Delete Book
+                  <Button size="small" variant="outlined" color="primary" onClick={() => handleEdit(book)}>
+                    Edit
+                  </Button>
+                  <Button size="small" variant="outlined" color="error" onClick={() => deleteBook(book.bookId)}>
+                    Delete
                   </Button>
                 </CardActions>
               </Card>
@@ -107,6 +128,28 @@ export default function ViewBooks() {
           ))}
         </Grid>
       )}
+
+      {/* Edit Book Dialog */}
+      <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>Edit Book</DialogTitle>
+        <DialogContent>
+          {editingBook && (
+            <BookForm
+              initialData={editingBook}
+              onSubmit={handleUpdateBook}
+              onClose={() => setEditDialogOpen(false)}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Snackbar */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        message="Book updated successfully"
+      />
     </Container>
   );
 }
