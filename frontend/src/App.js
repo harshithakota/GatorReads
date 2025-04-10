@@ -12,6 +12,7 @@ import LoanHistory from "./pages/LoanHistory";
 import AdminDashboard from './components/AdminDashboard';
 import ViewBooks from './pages/ViewBooks';
 import ManageLoans from './pages/ManageLoans';
+import ManageEvents from './pages/ManageEvents';
 import AddEvent from './pages/AddEvent';
 
 const theme = createTheme({
@@ -99,6 +100,7 @@ function App() {
           <Route path="/admin/add-book" element={<AddBook />} /> 
           <Route path="/admin/view-books" element={<ViewBooks />} /> 
           <Route path="/admin/manage-loans" element={<ManageLoans />} /> 
+          <Route path="/admin/manage-events" element={<ManageEvents />} /> 
           <Route path="/loan-history" element={<LoanHistory  ufid={ufid}/>} /> 
           <Route path="/addevent" element={<AddEvent  ufid={ufid}/>} /> 
           {/* <Route path="/" element={<Login />} /> */}
