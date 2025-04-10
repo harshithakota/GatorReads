@@ -9,7 +9,13 @@ import {
   CardContent,
   Button
 } from '@mui/material';
-import { LibraryBooks, AddBox, ReceiptLong, Bookmark } from '@mui/icons-material';
+import { 
+  LibraryBooks, 
+  AddBox, 
+  ReceiptLong, 
+  Bookmark, 
+  EventNote 
+} from '@mui/icons-material';
 import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
@@ -40,6 +46,7 @@ const AdminDashboard = () => {
                     </CardContent>
                   </Card>
                 </Grid>
+
                 <Grid item xs={12} sm={6} md={3}>
                   <Card>
                     <CardContent sx={{ textAlign: 'center' }}>
@@ -50,6 +57,7 @@ const AdminDashboard = () => {
                     </CardContent>
                   </Card>
                 </Grid>
+
                 <Grid item xs={12} sm={6} md={3}>
                   <Card>
                     <CardContent sx={{ textAlign: 'center' }}>
@@ -60,12 +68,24 @@ const AdminDashboard = () => {
                     </CardContent>
                   </Card>
                 </Grid>
+
                 <Grid item xs={12} sm={6} md={3}>
                   <Card>
                     <CardContent sx={{ textAlign: 'center' }}>
                       <Bookmark sx={{ fontSize: 40, mb: 1 }} />
                       <Button variant="contained" fullWidth onClick={() => navigate("/addevent")}>
                         Add Events
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={3}>
+                  <Card>
+                    <CardContent sx={{ textAlign: 'center' }}>
+                      <EventNote sx={{ fontSize: 40, mb: 1 }} />
+                      <Button variant="contained" fullWidth onClick={() => navigate("/admin/manage-events")}>
+                        Manage Events
                       </Button>
                     </CardContent>
                   </Card>
