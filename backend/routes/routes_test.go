@@ -516,52 +516,52 @@ func TestSearchEventsByName(t *testing.T) {
 	assert.GreaterOrEqual(t, len(events), 1, "Expected at least one matching event")
 }
 
-// func TestGetAllUsers(t *testing.T) {
-// 	router := setupRouter()
+func TestGetAllUsers(t *testing.T) {
+	router := setupRouter()
 
-// 	req, _ := http.NewRequest("GET", "/getAllUsers", nil)
-// 	w := httptest.NewRecorder()
-// 	router.ServeHTTP(w, req)
+	req, _ := http.NewRequest("GET", "/getAllUsers", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
 
-// 	// Expect either 200 OK or 404 Not Found depending on DB state
-// 	assert.Contains(t, []int{http.StatusOK, http.StatusNotFound}, w.Code)
+	// Expect either 200 OK or 404 Not Found depending on DB state
+	assert.Contains(t, []int{http.StatusOK, http.StatusNotFound}, w.Code)
 
-// 	if w.Code == http.StatusOK {
-// 		var response map[string]interface{}
-// 		err := json.Unmarshal(w.Body.Bytes(), &response)
-// 		assert.Nil(t, err)
+	if w.Code == http.StatusOK {
+		var response map[string]interface{}
+		err := json.Unmarshal(w.Body.Bytes(), &response)
+		assert.Nil(t, err)
 
-// 		// Ensure "users" key exists and is an array
-// 		users, exists := response["users"].([]interface{})
-// 		assert.True(t, exists || response["users"] != nil, "Expected 'users' key in response")
+		// Ensure "users" key exists and is an array
+		users, exists := response["users"].([]interface{})
+		assert.True(t, exists || response["users"] != nil, "Expected 'users' key in response")
 
-// 		if exists {
-// 			assert.GreaterOrEqual(t, len(users), 1, "Expected at least one user in the list")
-// 		}
-// 	} else {
-// 		t.Log("No users found, received 404 as expected")
-// 	}
-// }
+		if exists {
+			assert.GreaterOrEqual(t, len(users), 1, "Expected at least one user in the list")
+		}
+	} else {
+		t.Log("No users found, received 404 as expected")
+	}
+}
 
-// func TestGetUser(t *testing.T) {
-// 	router := setupRouter()
+func TestGetUser(t *testing.T) {
+	router := setupRouter()
 
-// 	// Prepare the GET request
-// 	req, _ := http.NewRequest("GET", "/getUser/0009222", nil)
-// 	w := httptest.NewRecorder()
-// 	router.ServeHTTP(w, req)
+	// Prepare the GET request
+	req, _ := http.NewRequest("GET", "/getUser/0009222", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
 
-// 	assert.Equal(t, http.StatusOK, w.Code)
+	assert.Equal(t, http.StatusOK, w.Code)
 
-// 	var response map[string]interface{}
-// 	err := json.Unmarshal(w.Body.Bytes(), &response)
-// 	assert.Nil(t, err)
+	var response map[string]interface{}
+	err := json.Unmarshal(w.Body.Bytes(), &response)
+	assert.Nil(t, err)
 
-// 	// Check if user field exists
-// 	user := response["user"].(map[string]interface{})
-// 	assert.Equal(t, "0009222", user["ufid"])
+	// Check if user field exists
+	user := response["user"].(map[string]interface{})
+	assert.Equal(t, "0009222", user["ufid"])
 
-// }
+}
 
 // func TestDeleteUser(t *testing.T) {
 // 	router := setupRouter()
