@@ -1,28 +1,28 @@
-// package routes
+package routes
 
-// import (
-// 	"backend/database"
-// 	"backend/models"
-// 	"net/http"
+import (
+	"backend/database"
+	"backend/models"
+	"net/http"
 
-// 	"github.com/gin-gonic/gin"
-// 	// "gorm.io/gorm"
-// )
+	"github.com/gin-gonic/gin"
+	// "gorm.io/gorm"
+)
 
-// func GetAllUsers(c *gin.Context) {
-// 	var users []models.User
-// 	if err := database.DB.Find(&users).Error; err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retrieving users"})
-// 		return
-// 	}
+func GetAllUsers(c *gin.Context) {
+	var users []models.User
+	if err := database.DB.Find(&users).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retrieving users"})
+		return
+	}
 
-// 	if len(users) == 0 {
-// 		c.JSON(http.StatusNotFound, gin.H{"message": "No users found"})
-// 		return
-// 	}
+	if len(users) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No users found"})
+		return
+	}
 
-// 	c.JSON(http.StatusOK, gin.H{"users": users})
-// }
+	c.JSON(http.StatusOK, gin.H{"users": users})
+}
 
 // func GetUser(c *gin.Context) {
 // 	ufid := c.Param("ufid")
