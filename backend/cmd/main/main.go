@@ -32,6 +32,7 @@ func main() {
 
 	r.POST("/issueBook", routes.IssueBook)
 	r.POST("/returnBook", routes.ReturnBook)
+	r.GET("/searchBook", routes.SearchBooksByName)
 
 	r.GET("/getAllLoans", routes.AllLoans)
 	r.GET("/getLoans/:ufId", routes.GetLoans)
@@ -41,6 +42,12 @@ func main() {
 	r.GET("/getAllEvents", routes.GetAllEvents)
 	r.DELETE("/deleteEvent/:eventId", routes.DeleteEvent)
 	r.PUT("/updateEvent/:eventId", routes.UpdateEvent)
+	// r.GET("/searchEvent", routes.SearchEventsByName)
+
+	// r.GET("/getAllUsers", routes.GetAllUsers)
+	// r.GET("/getUser/:ufid", routes.GetUser)
+	// r.DELETE("/deleteUser/:ufid", routes.DeleteUser)
+	// r.PUT("/updateUser/:ufid", routes.UpdateUser)
 
 	r.Run(":8083")
 }

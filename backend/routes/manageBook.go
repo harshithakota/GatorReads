@@ -87,3 +87,25 @@ func DeleteBook(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Book deleted successfully"})
 }
+
+// SearchBooksByName searches for books by BookFullName (case-insensitive)
+func SearchBooksByName(c *gin.Context) {
+	bookName := c.Query("name")
+	if bookName == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing name query parameter"})
+		return
+	}
+
+	var books []models.Book
+	if err := database.DB.Where("LOWER(book_full_name) LIKE LOWER(?)", "%"+bookName+"%").Find(&books).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error searching books", "details": err.Error()})
+		return
+	}
+
+	if len(books) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No books found with the given name"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"books": books})
+}
