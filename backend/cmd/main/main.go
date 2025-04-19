@@ -47,7 +47,7 @@ func main() {
 	r.GET("/getAllUsers", routes.GetAllUsers)
 	r.GET("/getUser/:ufid", routes.GetUser)
 	r.DELETE("/deleteUser/:ufid", routes.DeleteUser)
-	// r.PUT("/updateUser/:ufid", routes.UpdateUser)
+	r.PUT("/updateUser/:ufid", routes.UpdateUser)
 
 	r.Run(":8083")
 }

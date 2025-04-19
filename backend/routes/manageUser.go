@@ -70,44 +70,44 @@ func DeleteUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "User deleted successfully"})
 }
 
-// func UpdateUser(c *gin.Context) {
-// 	ufid := c.Param("ufid")
+func UpdateUser(c *gin.Context) {
+	ufid := c.Param("ufid")
 
-// 	if ufid == "" {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing UFID parameter"})
-// 		return
-// 	}
+	if ufid == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing UFID parameter"})
+		return
+	}
 
-// 	var user models.User
+	var user models.User
 
-// 	// Check if user exists
-// 	if err := database.DB.First(&user, "ufid = ?", ufid).Error; err != nil {
-// 		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
-// 		return
-// 	}
+	// Check if user exists
+	if err := database.DB.First(&user, "ufid = ?", ufid).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
 
-// 	var updatedData models.User
+	var updatedData models.User
 
-// 	// Bind updated data from request body
-// 	if err := c.ShouldBindJSON(&updatedData); err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user data", "details": err.Error()})
-// 		return
-// 	}
+	// Bind updated data from request body
+	if err := c.ShouldBindJSON(&updatedData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user data", "details": err.Error()})
+		return
+	}
 
-// 	// Update fields
-// 	user.UserType = updatedData.UserType
-// 	user.UserFullName = updatedData.UserFullName
-// 	user.DOB = updatedData.DOB
-// 	user.Gender = updatedData.Gender
-// 	user.Email = updatedData.Email
-// 	user.Password = updatedData.Password
-// 	user.IsAdmin = updatedData.IsAdmin
+	// Update fields
+	user.UserType = updatedData.UserType
+	user.UserFullName = updatedData.UserFullName
+	user.DOB = updatedData.DOB
+	user.Gender = updatedData.Gender
+	user.Email = updatedData.Email
+	user.Password = updatedData.Password
+	user.IsAdmin = updatedData.IsAdmin
 
-// 	// Save to DB
-// 	if err := database.DB.Save(&user).Error; err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error updating user"})
-// 		return
-// 	}
+	// Save to DB
+	if err := database.DB.Save(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error updating user"})
+		return
+	}
 
-// 	c.JSON(http.StatusOK, gin.H{"message": "User updated successfully", "user": user})
-// }
+	c.JSON(http.StatusOK, gin.H{"message": "User updated successfully", "user": user})
+}
