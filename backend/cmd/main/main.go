@@ -42,7 +42,7 @@ func main() {
 	r.GET("/getAllEvents", routes.GetAllEvents)
 	r.DELETE("/deleteEvent/:eventId", routes.DeleteEvent)
 	r.PUT("/updateEvent/:eventId", routes.UpdateEvent)
-	// r.GET("/searchEvent", routes.SearchEventsByName)
+	r.GET("/searchEvent", routes.SearchEventsByName)
 
 	// r.GET("/getAllUsers", routes.GetAllUsers)
 	// r.GET("/getUser/:ufid", routes.GetUser)

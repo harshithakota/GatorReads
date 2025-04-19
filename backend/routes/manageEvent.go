@@ -135,23 +135,23 @@ func DeleteEvent(c *gin.Context) {
 }
 
 // SearchEventsByName searches for events by name (case-insensitive)
-// func SearchEventsByName(c *gin.Context) {
-// 	eventName := c.Query("name")
-// 	if eventName == "" {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing name query parameter"})
-// 		return
-// 	}
+func SearchEventsByName(c *gin.Context) {
+	eventName := c.Query("name")
+	if eventName == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing name query parameter"})
+		return
+	}
 
-// 	var events []models.Event
-// 	if err := database.DB.Where("LOWER(title) LIKE LOWER(?)", "%"+eventName+"%").Find(&events).Error; err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error searching events", "details": err.Error()})
-// 		return
-// 	}
+	var events []models.Event
+	if err := database.DB.Where("LOWER(title) LIKE LOWER(?)", "%"+eventName+"%").Find(&events).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error searching events", "details": err.Error()})
+		return
+	}
 
-// 	if len(events) == 0 {
-// 		c.JSON(http.StatusNotFound, gin.H{"message": "No events found with the given name"})
-// 		return
-// 	}
+	if len(events) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "No events found with the given name"})
+		return
+	}
 
-// 	c.JSON(http.StatusOK, gin.H{"events": events})
-// }
+	c.JSON(http.StatusOK, gin.H{"events": events})
+}
