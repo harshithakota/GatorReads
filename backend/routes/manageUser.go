@@ -24,26 +24,26 @@ func GetAllUsers(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"users": users})
 }
 
-// func GetUser(c *gin.Context) {
-// 	ufid := c.Param("ufid")
+func GetUser(c *gin.Context) {
+	ufid := c.Param("ufid")
 
-// 	println("UFID is:", ufid)
+	println("UFID is:", ufid)
 
-// 	if ufid == "" {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing UFID parameter"})
-// 		return
-// 	}
+	if ufid == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing UFID parameter"})
+		return
+	}
 
-// 	var user models.User
+	var user models.User
 
-// 	// Search user by UFID
-// 	if err := database.DB.First(&user, "ufid = ?", ufid).Error; err != nil {
-// 		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
-// 		return
-// 	}
+	// Search user by UFID
+	if err := database.DB.First(&user, "ufid = ?", ufid).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
 
-// 	c.JSON(http.StatusOK, gin.H{"user": user})
-// }
+	c.JSON(http.StatusOK, gin.H{"user": user})
+}
 
 // func DeleteUser(c *gin.Context) {
 // 	ufid := c.Param("ufid")
