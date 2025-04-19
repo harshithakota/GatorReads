@@ -37,6 +37,7 @@ func setupRouter() *gin.Engine {
 	router.GET("/getEvent/:eventId", GetEvent)
 	router.DELETE("/deleteEvent/:eventId", DeleteEvent)
 	router.PUT("/updateEvent/:eventId", UpdateEvent)
+	router.GET("/searchBook", SearchBooksByName)
 
 	return router
 }
@@ -58,11 +59,8 @@ func TestMain(m *testing.M) {
 	// Optionally, auto-migrate your schemas here
 	database.DB.AutoMigrate(&models.Book{}, &models.User{})
 
+	// Run tests once and exit
 	exitVal := m.Run()
-
-	database.Connect() // ✅ Ensure DB is initialized
-	os.Exit(m.Run())
-
 	os.Exit(exitVal)
 }
 
@@ -71,11 +69,11 @@ func TestRegister(t *testing.T) {
 
 	reqBody := models.User{
 		UserType:     "Student",
-		UserFullName: "John11 Doe",
-		UFID:         "00092231180",
+		UserFullName: "John12 Doe",
+		UFID:         "00092231186",
 		DOB:          "1995-03-15",
 		Gender:       "Male",
-		Email:        "johndo00092231180@example.com",
+		Email:        "johndo00092231186@example.com",
 		Password:     "verysecurepassword",
 		IsAdmin:      false,
 	}
@@ -93,7 +91,7 @@ func TestSignIn(t *testing.T) {
 	router := setupRouter()
 
 	reqBody := map[string]string{
-		"ufId":     "00092231180",
+		"ufId":     "00092231186",
 		"password": "verysecurepassword",
 	}
 
@@ -115,7 +113,7 @@ func TestSignOut(t *testing.T) {
 	router := setupRouter()
 
 	reqBody := map[string]string{
-		"ufId": "00092231180",
+		"ufId": "00092231186",
 	}
 
 	body, _ := json.Marshal(reqBody)
@@ -138,9 +136,9 @@ func TestAddBook(t *testing.T) {
 	defer db.Rollback()
 
 	newBook := models.Book{
-		BookID:       "G142380",
+		BookID:       "G142386",
 		BookType:     "Non-Fiction",
-		BookFullName: "GG-142380 Testing book",
+		BookFullName: "GG-142386 Testing book",
 		BookCount:    5,
 		AuthorName:   "XYZ",
 		ImageData:    "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAAAAAAAD/2wBDAAgGBgcGBQgHBwcJ...",
@@ -160,7 +158,7 @@ func TestGetBook(t *testing.T) {
 	router := setupRouter()
 
 	// Mock Book ID
-	bookId := "G142380"
+	bookId := "G142386"
 
 	req, _ := http.NewRequest("GET", "/getBook/"+bookId, nil)
 	req.Header.Set("Content-Type", "application/json")
@@ -207,8 +205,8 @@ func TestGetAllBooks(t *testing.T) {
 func TestIssueBook(t *testing.T) {
 	router := setupRouter()
 	reqBody := models.IssueBookRequest{
-		UFID:      "00092231180",
-		BookID:    "G142380",
+		UFID:      "00092231186",
+		BookID:    "G142386",
 		IssueDate: time.Date(2025, time.March, 10, 0, 0, 0, 0, time.UTC),
 	}
 
@@ -229,8 +227,8 @@ func TestIssueBook(t *testing.T) {
 func TestReturnBook(t *testing.T) {
 	router := setupRouter()
 	reqBody := models.IssueBookRequest{
-		UFID:       "00092231180",
-		BookID:     "G142380",
+		UFID:       "00092231186",
+		BookID:     "G142386",
 		ReturnDate: time.Date(2025, time.March, 15, 0, 0, 0, 0, time.UTC),
 	}
 
@@ -252,7 +250,7 @@ func TestGetLoans(t *testing.T) {
 	router := setupRouter()
 
 	// Mock UFID
-	ufid := "0009223118"
+	ufid := "00092231186"
 
 	req, _ := http.NewRequest("GET", "/getLoans/"+ufid, nil)
 	req.Header.Set("Content-Type", "application/json")
@@ -335,7 +333,7 @@ func TestAddEvent(t *testing.T) {
 	// Updated event data with a unique identifier
 	newEvent := models.Event{
 		EventID:     uniqueEventID, // Unique event ID for each test run
-		Title:       "GatorReads Tech Talk",
+		Title:       "GatorReads Tech Talk6",
 		Description: "Created for Unit testing An engaging tech session hosted by GatorReads.",
 		EventDate:   time.Date(2025, time.March, 15, 0, 0, 0, 0, time.UTC),
 		EventTime:   "3:00 PM - 5:00 PM",
@@ -368,10 +366,10 @@ func TestGetEvent(t *testing.T) {
 	router := setupRouter()
 
 	// First, insert a mock event into the database (optional but ensures test consistency)
-	mockEvent := models.Event{
-		EventID: "EVT2949",
-	}
-	_ = database.DB.Create(&mockEvent)
+	// mockEvent := models.Event{
+	// 	EventID: "EVT2949",
+	// }
+	// _ = database.DB.Create(&mockEvent)
 
 	// Make GET request to /getEvent/EVT999
 	req, _ := http.NewRequest("GET", "/getEvent/EVT2949", nil)
@@ -391,14 +389,14 @@ func TestGetEvent(t *testing.T) {
 func TestDeleteEvent(t *testing.T) {
 	router := setupRouter()
 
-	// Step 1: Create a mock event to delete
-	mockEvent := models.Event{
-		EventID: "EVT1743476075113062300",
-	}
-	_ = database.DB.Create(&mockEvent)
+	// // Step 1: Create a mock event to delete
+	// mockEvent := models.Event{
+	// 	EventID: "EVT1744229743008604500",
+	// }
+	// _ = database.DB.Create(&mockEvent)
 
 	// Step 2: Prepare DELETE request
-	req, _ := http.NewRequest("DELETE", "/deleteEvent/EVT1743476075113062300", nil)
+	req, _ := http.NewRequest("DELETE", "/deleteEvent/EVT1744229910205163000", nil)
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 
@@ -416,21 +414,21 @@ func TestUpdateEvent(t *testing.T) {
 	router := setupRouter()
 
 	// Step 1: Insert a mock event to update
-	mockEvent := models.Event{
-		EventID: "EVT1743476075484020800",
-		// Title:       "Original Title",
-		// Description: "Original Description",
-		// EventDate:   time.Date(2025, time.March, 25, 0, 0, 0, 0, time.UTC),
-		// EventTime:   "2:00 PM - 4:00 PM",
-		// Location:    "Hall A",
-		// Link:        "https://original.link",
-	}
-	_ = database.DB.Create(&mockEvent)
+	// mockEvent := models.Event{
+	// 	EventID: "EVT1743476075484020800",
+	// 	// Title:       "Original Title",
+	// 	// Description: "Original Description",
+	// 	// EventDate:   time.Date(2025, time.March, 25, 0, 0, 0, 0, time.UTC),
+	// 	// EventTime:   "2:00 PM - 4:00 PM",
+	// 	// Location:    "Hall A",
+	// 	// Link:        "https://original.link",
+	// }
+	// _ = database.DB.Create(&mockEvent)
 
 	// Step 2: Prepare updated event data
 	updatedEvent := models.Event{
 		Title:       "Updated Title",
-		Description: "Updated Description 2",
+		Description: "Updated Description 6",
 		EventDate:   time.Date(2025, time.March, 26, 0, 0, 0, 0, time.UTC),
 		EventTime:   "3:00 PM - 5:00 PM",
 		Location:    "Hall B",
@@ -453,4 +451,24 @@ func TestUpdateEvent(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, "Event updated successfully", response["message"])
 
+}
+
+func TestSearchBooksByName(t *testing.T) {
+	router := setupRouter()
+
+	// Step 2: Make the GET request with the correct query param
+	req, _ := http.NewRequest("GET", "/searchBook?name=GG-142", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	// Step 3: Validate the response
+	assert.Equal(t, http.StatusOK, w.Code)
+
+	var response map[string]interface{}
+	err := json.Unmarshal(w.Body.Bytes(), &response)
+	assert.Nil(t, err)
+
+	books, ok := response["books"].([]interface{})
+	assert.True(t, ok, "Expected 'books' to be a list")
+	assert.GreaterOrEqual(t, len(books), 1, "Expected at least one matching book")
 }
