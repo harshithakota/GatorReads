@@ -45,30 +45,30 @@ func GetUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"user": user})
 }
 
-// func DeleteUser(c *gin.Context) {
-// 	ufid := c.Param("ufid")
+func DeleteUser(c *gin.Context) {
+	ufid := c.Param("ufid")
 
-// 	if ufid == "" {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing UFID parameter"})
-// 		return
-// 	}
+	if ufid == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing UFID parameter"})
+		return
+	}
 
-// 	var user models.User
+	var user models.User
 
-// 	// Check if user exists
-// 	if err := database.DB.First(&user, "ufid = ?", ufid).Error; err != nil {
-// 		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
-// 		return
-// 	}
+	// Check if user exists
+	if err := database.DB.First(&user, "ufid = ?", ufid).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
 
-// 	// Delete user
-// 	if err := database.DB.Delete(&user).Error; err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error deleting user"})
-// 		return
-// 	}
+	// Delete user
+	if err := database.DB.Delete(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error deleting user"})
+		return
+	}
 
-// 	c.JSON(http.StatusOK, gin.H{"message": "User deleted successfully"})
-// }
+	c.JSON(http.StatusOK, gin.H{"message": "User deleted successfully"})
+}
 
 // func UpdateUser(c *gin.Context) {
 // 	ufid := c.Param("ufid")
