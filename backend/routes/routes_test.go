@@ -563,91 +563,91 @@ func TestGetUser(t *testing.T) {
 
 }
 
-// func TestDeleteUser(t *testing.T) {
-// 	router := setupRouter()
+func TestDeleteUser(t *testing.T) {
+	router := setupRouter()
 
-// 	// Step 1: Ensure test user exists (clean if necessary)
-// 	testUser := models.User{
-// 		UFID:         "00092231186",
-// 		UserType:     "Student",
-// 		UserFullName: "John12 Doe",
-// 		DOB:          "1995-03-15",
-// 		Gender:       "Male",
-// 		Email:        "johndo00092231186@example.com",
-// 		Password:     "verysecurepassword",
-// 		IsAdmin:      false,
-// 	}
+	// Step 1: Ensure test user exists (clean if necessary)
+	testUser := models.User{
+		UFID:         "00092231186",
+		UserType:     "Student",
+		UserFullName: "John12 Doe",
+		DOB:          "1995-03-15",
+		Gender:       "Male",
+		Email:        "johndo00092231186@example.com",
+		Password:     "verysecurepassword",
+		IsAdmin:      false,
+	}
 
-// 	// Delete any existing record to prevent PK conflict
-// 	database.DB.Where("ufid = ?", testUser.UFID).Unscoped().Delete(&models.User{})
+	// Delete any existing record to prevent PK conflict
+	database.DB.Where("ufid = ?", testUser.UFID).Unscoped().Delete(&models.User{})
 
-// 	// Insert the user
-// 	err := database.DB.Create(&testUser).Error
-// 	if err != nil {
-// 		t.Fatalf("Failed to create test user: %v", err)
-// 	}
+	// Insert the user
+	err := database.DB.Create(&testUser).Error
+	if err != nil {
+		t.Fatalf("Failed to create test user: %v", err)
+	}
 
-// 	// Step 2: Perform DELETE request
-// 	req, _ := http.NewRequest("DELETE", "/deleteUser/00092231186", nil)
-// 	w := httptest.NewRecorder()
-// 	router.ServeHTTP(w, req)
+	// Step 2: Perform DELETE request
+	req, _ := http.NewRequest("DELETE", "/deleteUser/00092231186", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
 
-// 	// Step 3: Validate response
-// 	assert.Equal(t, http.StatusOK, w.Code)
+	// Step 3: Validate response
+	assert.Equal(t, http.StatusOK, w.Code)
 
-// 	var response map[string]interface{}
-// 	err = json.Unmarshal(w.Body.Bytes(), &response)
-// 	assert.Nil(t, err)
-// 	assert.Equal(t, "User deleted successfully", response["message"])
-// }
+	var response map[string]interface{}
+	err = json.Unmarshal(w.Body.Bytes(), &response)
+	assert.Nil(t, err)
+	assert.Equal(t, "User deleted successfully", response["message"])
+}
 
-// func TestUpdateUser(t *testing.T) {
-// 	router := setupRouter()
+func TestUpdateUser(t *testing.T) {
+	router := setupRouter()
 
-// 	// Step 1: Create a mock user
-// 	mockUser := models.User{
-// 		UserType:     "Student",
-// 		UserFullName: "Original Name",
-// 		UFID:         "UPD123",
-// 		DOB:          "2000-01-01",
-// 		Gender:       "Female",
-// 		Email:        "original@example.com",
-// 		Password:     "originalpass",
-// 		IsAdmin:      false,
-// 	}
-// 	_ = database.DB.Create(&mockUser)
+	// Step 1: Create a mock user
+	mockUser := models.User{
+		UserType:     "Student",
+		UserFullName: "Original Name",
+		UFID:         "UPD123",
+		DOB:          "2000-01-01",
+		Gender:       "Female",
+		Email:        "original@example.com",
+		Password:     "originalpass",
+		IsAdmin:      false,
+	}
+	_ = database.DB.Create(&mockUser)
 
-// 	// Step 2: Prepare updated data
-// 	updatedData := models.User{
-// 		UserType:     "Admin",
-// 		UserFullName: "Updated Name",
-// 		DOB:          "1995-06-15",
-// 		Gender:       "Other",
-// 		Email:        "updated@example.com",
-// 		Password:     "updatedpass",
-// 		IsAdmin:      true,
-// 	}
+	// Step 2: Prepare updated data
+	updatedData := models.User{
+		UserType:     "Admin",
+		UserFullName: "Updated Name",
+		DOB:          "1995-06-15",
+		Gender:       "Other",
+		Email:        "updated@example.com",
+		Password:     "updatedpass",
+		IsAdmin:      true,
+	}
 
-// 	body, _ := json.Marshal(updatedData)
-// 	req, _ := http.NewRequest("PUT", "/updateUser/UPD123", bytes.NewBuffer(body))
-// 	req.Header.Set("Content-Type", "application/json")
+	body, _ := json.Marshal(updatedData)
+	req, _ := http.NewRequest("PUT", "/updateUser/UPD123", bytes.NewBuffer(body))
+	req.Header.Set("Content-Type", "application/json")
 
-// 	// Step 3: Perform request
-// 	w := httptest.NewRecorder()
-// 	router.ServeHTTP(w, req)
+	// Step 3: Perform request
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
 
-// 	// Step 4: Validate response
-// 	assert.Equal(t, http.StatusOK, w.Code)
+	// Step 4: Validate response
+	assert.Equal(t, http.StatusOK, w.Code)
 
-// 	var response map[string]interface{}
-// 	err := json.Unmarshal(w.Body.Bytes(), &response)
-// 	assert.Nil(t, err)
-// 	assert.Equal(t, "User updated successfully", response["message"])
+	var response map[string]interface{}
+	err := json.Unmarshal(w.Body.Bytes(), &response)
+	assert.Nil(t, err)
+	assert.Equal(t, "User updated successfully", response["message"])
 
-// 	// Optional: Validate updated fields
-// 	updated := response["user"].(map[string]interface{})
-// 	assert.Equal(t, "Updated Name", updated["userFullName"])
-// 	assert.Equal(t, "Admin", updated["userType"])
-// 	assert.Equal(t, "updated@example.com", updated["email"])
-// 	assert.Equal(t, true, updated["isAdmin"])
-// }
+	// Optional: Validate updated fields
+	updated := response["user"].(map[string]interface{})
+	assert.Equal(t, "Updated Name", updated["userFullName"])
+	assert.Equal(t, "Admin", updated["userType"])
+	assert.Equal(t, "updated@example.com", updated["email"])
+	assert.Equal(t, true, updated["isAdmin"])
+}
