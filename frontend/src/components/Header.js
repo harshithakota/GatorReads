@@ -32,6 +32,7 @@ function Header(props) {
         }
     }, []);
 
+
     const handleLogout = (event) => {
         event.preventDefault();
         localStorage.removeItem('user');
@@ -49,13 +50,21 @@ function Header(props) {
             </Link>
             </div>
             <div className='nav-right'>
-                <input style={{ 
-            height: '50px', // Reducing the height
-            width: '250px',
-            padding: '5px 10px', // Adjusting padding
-            boxSizing: 'border-box', // Ensuring padding and border are included in the height
-            fontSize: '14px' // Optional: adjusting font size
-        }} className='search-input' type='text' placeholder='Search a Book'/>
+            {props.isLoggedIn && (
+  <input
+    style={{
+      height: '50px',
+      width: '250px',
+      padding: '5px 10px',
+      boxSizing: 'border-box',
+      fontSize: '14px'
+    }}
+    className='search-input'
+    type='text'
+    placeholder='Search a Book!'
+  />
+)}
+
                 <ul className={menutoggle ? "nav-options active" : "nav-options"}>
                     {/* <li className="option" onClick={() => { closeMenu() }}>
                         <Link to='/register'>
