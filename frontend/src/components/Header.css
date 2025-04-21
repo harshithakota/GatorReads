@@ -10,7 +10,7 @@
     z-index: 100;
     background-color: var(--uf-blue);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 0.75rem 40px;
+    padding: 0.25rem 40px;
     transition: all 0.3s ease;
     top: 0%;
 }
@@ -106,7 +106,7 @@ a{
     }
     .header{
         display: grid;
-        grid-template-columns: 10% 60%;
+        grid-template-columns: auto 1fr;
     }
 }
 
