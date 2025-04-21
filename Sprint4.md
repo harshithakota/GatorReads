@@ -138,7 +138,8 @@ We implemented **Go test cases** using `httptest`, `gin-gonic`, and `testify/ass
 
 # GatorReads API Documentation
 
-The API Documentation for GatorReads provides a comprehensive guide on how to interact with the GatorReads backend system via various endpoints. These APIs facilitate a range of functionalities, including user registration, sign-in and sign-out processes, book management (such as adding, fetching, and returning books), and handling loan records. Each API endpoint is described with its method, request parameters, authentication requirements, expected responses, and error handling, making it easy for developers to integrate and use these services in application development. This documentation serves as a crucial tool for understanding how to effectively communicate with the GatorReads system to manage users, books, and loan records within the platform.
+The API Documentation for GatorReads provides a comprehensive guide on how to interact with the backend system through various RESTful endpoints. These APIs enable a wide range of functionalities, including user authentication (registration, sign-in, and sign-out), book management (adding, retrieving, issuing, returning, deleting), loan tracking, and event management.
+In addition to core features, the system now includes extended support for user management (viewing, updating, and deleting users), as well as event search functionality using flexible query parameters. Each API endpoint is clearly documented with its method, request format, authentication requirements, expected responses, and error handling — empowering developers to efficiently build, integrate, and maintain robust applications on top of the GatorReads platform.
 
 ---
 
