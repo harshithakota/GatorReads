@@ -86,30 +86,30 @@ We implemented **Go test cases** using `httptest`, `gin-gonic`, and `testify/ass
 - Ensure a **user with active loans receives a `200 OK`** response with loan details.
 - Validate that a **user with no active loans gets a `404 Not Found`** response.
 
-### **Delete Book (TestDeleteBook)**
+#### **Delete Book (TestDeleteBook)**
 - Deletes a book using its bookId.
 - Returns **200 OK** on successful deletion.
 - Returns **404 Not Found** if the book does not exist.
   
-### **Add Event (TestAddEvent)**
+#### **Add Event (TestAddEvent)**
 - Adds a new event to the system.
 - Returns **201 Created** with event data.
 - Returns **400 Bad Request** if data is invalid.
 
-### **Get All Events (TestGetAllEvents)**
+#### **Get All Events (TestGetAllEvents)**
 - Retrieves a list of all scheduled events.
 - Returns **200 OK** with event list or **404 Not Found** if none exist.
 
-### **Get Event by ID (TestGetEvent)**
+#### **Get Event by ID (TestGetEvent)**
 - Fetches an event using eventId.
 - Returns **200 OK** with event details or **404 Not Found**.
 
-### **Update Event (TestUpdateEvent)**
+#### **Update Event (TestUpdateEvent)**
 - Updates existing event data.
 - Returns **200 OK** with updated event.
 - Returns **404 Not Found** if event does not exist.
 
-### **Delete Event (TestDeleteEvent)**
+#### **Delete Event (TestDeleteEvent)**
 - Deletes an event by ID.
 - Returns **200 OK** on success.
 - Returns **404 Not Found** if event is not found.
