@@ -28,7 +28,7 @@ const Login = (props) => {
       props.setUserName(response.data.user.userFullName);
       props.setufid(response.data.user.ufid);
       localStorage.setItem('user', JSON.stringify({
-        fullName: response.data.fullName,
+        fullName: response.data.user.userFullName,
         isLoggedIn: true
       }));
       props.setIsLoggedIn(true);
