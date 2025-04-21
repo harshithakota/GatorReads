@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Container, 
   Typography, 
@@ -12,18 +12,25 @@ import {
 import { Book, MenuBook, History, Bookmark } from '@mui/icons-material';
 import { useNavigate } from "react-router-dom";
 
-const StudentDashboard = (props) => {
-  const user = JSON.parse(localStorage.getItem('user')); // Get user data from localStorage
+const StudentDashboard = () => {
+  const [fullName, setFullName] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.fullName) {
+      setFullName(user.fullName);
+    }
+  }, []);
 
   return (
     <Container maxWidth="lg" sx={{ marginTop: '70px', marginBottom: '15px' }}>
       <Box sx={{ py: 4 }}>
         <Typography variant="h4" sx={{ mb: 4 }}>
-          Welcome, {props.userName}!
+          Welcome, {fullName}!
         </Typography>
 
-        <Grid container spacing={3} sx={{ marginTop: '10px'}}>
+        <Grid container spacing={3} sx={{ marginTop: '10px' }}>
           {/* Quick Actions */}
           <Grid item xs={12}>
             <Paper sx={{ p: 3, mb: 3 }}>
