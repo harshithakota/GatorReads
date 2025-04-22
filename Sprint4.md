@@ -2,6 +2,24 @@
 
 ## Frontend
 
+### Book and Event Editing Functionality (Admin)
+- Introduced editable forms for both books and events, empowering admins to modify details with ease.
+- The book edit form allows updates to title, author, and count, and includes validations before submission.
+- The event edit form supports updates to event name, date, and time.
+- These forms are integrated into modal dialogs to maintain seamless user interaction.
+
+### Authentication & State Persistence
+- Resolved issue where user greeting disappeared on reload by syncing dashboard with localStorage.
+- Ensured that once a user logs in, their session remains intact until explicitly logged out.
+
+### UI Enhancements
+
+- Login & Register Pages were redesigned with elevated cards (`Paper`), spacing (`Box`), and visual feedback via `Snackbar`.
+- Navbar Layout was corrected to align branding ("GATOR READS") to the left and authentication/navigation buttons to the right using `flexbox`.
+- Responsive Design was applied throughout to support smooth usage on different devices.
+- Consistent font sizes, margins, and color themes were applied to enhance overall readability and professionalism.
+
+
 ## Backend
 ### User Management APIs
 
@@ -44,7 +62,79 @@
 
 ## Cypress End-to-End (E2E) Tests
 
+### Login Page (`login.cy.js`)
+- Verify that the login page loads successfully.
+- Ensure users can enter UFID and password.
+- Test incorrect credentials handling (should show an error message).
+- Test successful login and redirection based on user type (student → `/student-dashboard`, admin → `/admin-dashboard`).
 
+### Register Page (`register.cy.js`)
+- Check if the registration page loads.
+- Ensure users can fill in all required fields.
+- Validate that incorrect data shows errors.
+- Verify successful registration and redirection to login.
+
+### Student Dashboard (`studentDashboard.cy.js`)
+- Confirm that the dashboard loads with user-specific data.
+- Verify that navigation buttons (Search Books, My Loans, etc.) work.
+- Check that current loans and due dates are displayed properly.
+
+### Search Books (`searchBooks.cy.js`)
+- Ensure that the book search page loads.
+- Verify users can search books by title or author.
+- Confirm books can be loaned successfully.
+
+### View Books (`ViewBooks.cy.js`)
+- Ensure the book list loads properly.
+- Check that book details (title, author, availability) are displayed correctly.
+- Verify filtering works as expected.
+
+### Add Book (`addBook.cy.js`)
+- Validate that the admin can access the "Add Book" page.
+- Ensure book details can be entered.
+- Check file upload for book cover images.
+- Test successful book addition and redirection to View Books.
+
+### Manage Loans (`manageLoans.cy.js`)
+- Confirm that all active book loans are displayed.
+- Validate the "Mark as Returned" functionality updates loan status.
+
+### Admin Dashboard (`AdminDashboard.cy.js`)
+- Ensure the admin dashboard loads with available actions.
+- Test that navigation to Add Book, View Books, and Manage Loans works properly.
+
+### Events Component Tests
+- Verify the Events page loads and displays events correctly.
+- Ensure all listed events show accurate details.
+
+### Add Event Form Tests
+- Confirm the Add Event page loads correctly.
+- Validate the functionality of the form fields and submission process.
+
+### Popular Books Component Tests
+- Verify the Popular Books section displays correctly.
+- Ensure images load and are clickable.
+
+### Recent Added Books Component Tests
+- Check the Recent Uploads section for correct rendering and image functionality.
+
+### ImageSlider Component Tests
+- Ensure the ImageSlider loads and transitions between images correctly.
+- Test the display and accuracy of image captions.
+
+### Book Form Editing (`bookform.cy.js`)
+- Open the Edit Book form by clicking the first "Edit" button.
+- Allow the admin to edit the values and submit the form.
+- Confirm that a success message (`Book updated successfully`) is displayed after submission.
+- Ensure that clicking "Cancel" closes the form without saving changes.
+
+### Event Form Editing (`eventform.cy.js`)
+- Open the Edit Event form by clicking the first "Edit" button.
+- Check that the form fields are visible and pre-filled.
+- Confirm that clicking "Cancel" closes the form without submitting any changes.
+
+
+These tests cover critical functionalities of the application, ensuring robustness and reliability of the platform through systematic validation of user flows and backend integration.
 
 
 ## **Unit and Integration Tests for Backend API**
